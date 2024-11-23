@@ -2,6 +2,7 @@ from infrastructure.privacy_rules.privacy_rules import is_authenticated
 from infrastructure.viewer_context.viewer_context import ViewerContext
 from main_app.parkings.getter import get_parking_by_id
 from main_app.parkings.models import EntryType, Parking, ParkingEntry
+from django.db import transaction
 
 
 @is_authenticated
@@ -35,6 +36,6 @@ def create_parking_entry(
     else:
         parking.occupied_lots -= 1
 
-    parking.save()
-
-    return ParkingEntry.objects.create(parking=parking, entry_type=entry_type)
+    with transaction.atomic():
+        parking.save()
+        return ParkingEntry.objects.create(parking=parking, entry_type=entry_type)

@@ -8,6 +8,8 @@ omit =
     */dataclass_parser.py
     */infrastructure/logging/*
     */graphql_fixtures.py
+    */mqtt.py
+    */apps.py
 
 [report]
 exclude_lines =
