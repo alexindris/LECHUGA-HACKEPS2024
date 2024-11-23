@@ -41,48 +41,69 @@ class SampleItemListView extends StatelessWidget {
           ),
         ],
       ),
-      body: Query(
-        options: QueryOptions(
-          document: gql(query),
-          pollInterval: const Duration(seconds: 30),
-        ),
-        builder: (QueryResult result,
-            {VoidCallback? refetch, FetchMore? fetchMore}) {
-          if (result.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Add your title inside the body
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(
+              child: Text(
+                'Choose Parking', // Replace with your desired title
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF0369A1),
+                    ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Query(
+              options: QueryOptions(
+                document: gql(query),
+                pollInterval: const Duration(seconds: 30),
+              ),
+              builder: (QueryResult result,
+                  {VoidCallback? refetch, FetchMore? fetchMore}) {
+                if (result.isLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-          if (result.hasException) {
-            return Center(
-              child: Text('Error: ${result.exception.toString()}'),
-            );
-          }
-
-          final List parkings = result.data?['allParkings'] ?? [];
-
-          return ListView.builder(
-            restorationId: 'mapItemListView',
-            itemCount: parkings.length,
-            itemBuilder: (BuildContext context, int index) {
-              final parking = parkings[index];
-
-              return ListTile(
-                title: Text(parking['name']),
-                subtitle: Text(parking['address']),
-                leading: const CircleAvatar(
-                  foregroundImage: AssetImage('assets/images/flutter_logo.png'),
-                ),
-                onTap: () {
-                  Navigator.restorablePushNamed(
-                    context,
-                    SampleItemDetailsView.routeName,
-                    arguments: parking,
+                if (result.hasException) {
+                  return Center(
+                    child: Text('Error: ${result.exception.toString()}'),
                   );
-                },
-              );
-            },
-          );
-        },
+                }
+
+                final List parkings = result.data?['allParkings'] ?? [];
+
+                return ListView.builder(
+                  restorationId: 'mapItemListView',
+                  itemCount: parkings.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final parking = parkings[index];
+
+                    return ListTile(
+                      title: Text(parking['name']),
+                      subtitle: Text(parking['address']),
+                      leading: const CircleAvatar(
+                        foregroundImage:
+                            AssetImage('assets/images/flutter_logo.png'),
+                      ),
+                      onTap: () {
+                        Navigator.restorablePushNamed(
+                          context,
+                          SampleItemDetailsView.routeName,
+                          arguments: parking,
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
