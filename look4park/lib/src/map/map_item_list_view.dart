@@ -65,7 +65,9 @@ class SampleItemListView extends StatelessWidget {
           final List parkings = result.data?['allParkings'] ?? [];
 
           // Create markers for each parking location
-          final List<Marker> markers = parkings.map((parking) {
+          final List<Marker> markers = parkings.asMap().entries.map((entry) {
+            int index = entry.key;
+            var parking = entry.value;
             return Marker(
               point: LatLng(
                 double.parse(parking['latitude']),
@@ -79,9 +81,21 @@ class SampleItemListView extends StatelessWidget {
                     arguments: parking,
                   );
                 },
-                child: const Icon(
-                  Icons.location_on,
-                  color: Colors.red,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    const Icon(
+                      Icons.location_on,
+                      color: Colors.red,
+                    ),
+                    Text(
+                      '${index + 1}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             );
@@ -96,14 +110,14 @@ class SampleItemListView extends StatelessWidget {
                     initialCenter: markers.isNotEmpty
                         ? markers.first.point
                         : const LatLng(0, 0), // Default to (0,0) if no markers
-                    minZoom: 12,
+                    minZoom: 11,
                   ),
                   children: [
                     TileLayer(
                       urlTemplate:
                           "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                       subdomains: const ['a', 'b', 'c'],
-                      userAgentPackageName: 'com.example.app',
+                      userAgentPackageName: 'com.look4park.parking',
                     ),
                     MarkerLayer(markers: markers),
                   ],
@@ -117,11 +131,10 @@ class SampleItemListView extends StatelessWidget {
                     final parking = parkings[index];
 
                     return ListTile(
-                      title: Text(parking['name']),
+                      title: Text('${index + 1}. ${parking['name']}'),
                       subtitle: Text(parking['address']),
                       leading: const CircleAvatar(
-                        foregroundImage:
-                            AssetImage('assets/images/flutter_logo.png'),
+                        child: Icon(Icons.location_on),
                       ),
                       onTap: () {
                         Navigator.restorablePushNamed(
