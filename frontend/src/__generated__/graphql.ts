@@ -20,7 +20,13 @@ export type Scalars = {
    * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
    */
   DateTime: { input: any; output: any; }
+  ParkingID: { input: any; output: any; }
   UserID: { input: any; output: any; }
+};
+
+export type CreateParkingMutation = {
+  __typename?: 'CreateParkingMutation';
+  parking: ParkingType;
 };
 
 export type CreateUserMutation = {
@@ -41,8 +47,16 @@ export type LoginUserMutation = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createParking: CreateParkingMutation;
   createUser: CreateUserMutation;
   loginUser: LoginUserMutation;
+};
+
+
+export type MutationCreateParkingArgs = {
+  address: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  totalLots: Scalars['Int']['input'];
 };
 
 
@@ -58,10 +72,38 @@ export type MutationLoginUserArgs = {
   password: Scalars['String']['input'];
 };
 
+export type ParkingEntry = {
+  __typename?: 'ParkingEntry';
+  createdAt: Scalars['DateTime']['output'];
+  entryType: ParkingStatusEnum;
+};
+
+export enum ParkingStatusEnum {
+  Entrance = 'ENTRANCE',
+  Exit = 'EXIT'
+}
+
+export type ParkingType = {
+  __typename?: 'ParkingType';
+  address: Scalars['String']['output'];
+  entries: Array<Maybe<ParkingEntry>>;
+  identifier: Scalars['ParkingID']['output'];
+  name: Scalars['String']['output'];
+  occupiedLots: Scalars['Int']['output'];
+  totalLots: Scalars['Int']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
+  allParkings: Array<Maybe<ParkingType>>;
   health: HealthType;
   me: UserType;
+  parking?: Maybe<ParkingType>;
+};
+
+
+export type QueryParkingArgs = {
+  identifier: Scalars['String']['input'];
 };
 
 export type UserType = {
@@ -93,7 +135,13 @@ export type CreateUsrMutationVariables = Exact<{
 
 export type CreateUsrMutation = { __typename?: 'Mutation', createUser: { __typename?: 'CreateUserMutation', user: { __typename?: 'UserType', identifier: any, name: string, email: string } } };
 
+export type ParkingQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ParkingQuery = { __typename?: 'Query', allParkings: Array<{ __typename?: 'ParkingType', identifier: any, name: string, address: string, totalLots: number, occupiedLots: number, entries: Array<{ __typename?: 'ParkingEntry', entryType: ParkingStatusEnum, createdAt: any } | null> } | null> };
+
 
 export const HealthDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Health"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"health"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"time"}}]}}]}}]} as unknown as DocumentNode<HealthQuery, HealthQueryVariables>;
 export const LoginUsrDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginUsr"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"}}]}}]}}]} as unknown as DocumentNode<LoginUsrMutation, LoginUsrMutationVariables>;
 export const CreateUsrDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateUsr"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"email"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"name"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"email"},"value":{"kind":"Variable","name":{"kind":"Name","value":"email"}}},{"kind":"Argument","name":{"kind":"Name","value":"name"},"value":{"kind":"Variable","name":{"kind":"Name","value":"name"}}},{"kind":"Argument","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"identifier"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"email"}}]}}]}}]}}]} as unknown as DocumentNode<CreateUsrMutation, CreateUsrMutationVariables>;
+export const ParkingDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Parking"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allParkings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"identifier"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"address"}},{"kind":"Field","name":{"kind":"Name","value":"totalLots"}},{"kind":"Field","name":{"kind":"Name","value":"occupiedLots"}},{"kind":"Field","name":{"kind":"Name","value":"entries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"entryType"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]}}]} as unknown as DocumentNode<ParkingQuery, ParkingQueryVariables>;

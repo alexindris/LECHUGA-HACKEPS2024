@@ -27,3 +27,19 @@ export const CREATE_USER = gql(`
     }
   }
 `);
+
+export const GET_ALL_PARKINGS = gql(`
+  query Parking {
+    allParkings {
+        identifier
+        name
+        address
+        totalLots
+        occupiedLots
+        entries {
+            entryType
+            createdAt
+        }
+    }
+}
+`);
