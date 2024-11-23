@@ -13,8 +13,6 @@ export function HomeComponent() {
       <header className="bg-sky-200 w-full h-16 flex items-center justify-center">
         <img src="/home_logo.png" alt="Home Logo" className="h-10 sm:h-12" />
       </header>
-
-
       <div
         className="flex flex-col md:flex-row w-full h-full items-center justify-center px-8 md:px-16 lg:px-32 py-4 "
         style={{
@@ -48,8 +46,6 @@ export function HomeComponent() {
           </div>
         </div>
       </div>
-
-
     </div>
   );
 }
