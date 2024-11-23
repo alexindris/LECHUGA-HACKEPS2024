@@ -15,3 +15,15 @@ export const LOGIN_USER = gql(`
     }
   }
 `);
+
+export const CREATE_USER = gql(`
+  mutation CreateUsr( $email: String!, $name: String!, $password: String!){
+    createUser(email:$email, name:$name, password: $password) {
+        user {
+          identifier,
+          name,
+          email,
+        }
+    }
+  }
+`);

@@ -18,16 +18,18 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import { useUserStore } from '@/stores/storeProvider';
 import { useState } from 'react';
 import { ErrorMessage } from './ErrorMessage';
 import { registerSchema } from '@/formSchemas/signupSchema';
 import { Checkbox } from './ui/checkbox';
+import { apolloClient } from '@/lib/utils';
+import { CREATE_USER } from '@/lib/api';
 
 export function RegisterForm() {
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -36,20 +38,21 @@ export function RegisterForm() {
   });
 
   const navigate = useNavigate();
-  const userStore = useUserStore();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   async function onSubmit(values: z.infer<typeof registerSchema>) {
     console.log(values)
-    // Add new logic here
 
-    // const a = await userStore.login(values.email, values.password);
-    // if (a.token) {
-    //   Cookies.set('auth', a.token);
-    //   navigate({ to: '/me' })
-    // }
-    // else if (a?.errorMessage) setErrorMessage(a.errorMessage);
-    // else setErrorMessage('Unknown error')
+    try {
+      await apolloClient.mutate({
+        mutation: CREATE_USER,
+        variables: { email: values.email, name: values.name, password: values.password },
+      });
+      navigate({ to: '/auth/signin' })
+    } catch (e: any) {
+      return setErrorMessage(e.message)
+    }
+
   }
 
   return (
