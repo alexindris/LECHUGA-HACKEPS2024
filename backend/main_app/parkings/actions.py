@@ -28,7 +28,6 @@ def create_parking(
 def create_parking_entry(
     viewer_context: ViewerContext, parkin_id: str, entry_type: EntryType
 ) -> ParkingEntry:
-
     parking = get_parking_by_id(viewer_context, parkin_id)
 
     if entry_type == EntryType.ENTRANCE:

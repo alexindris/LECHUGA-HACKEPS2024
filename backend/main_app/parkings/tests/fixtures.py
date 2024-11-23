@@ -24,4 +24,3 @@ def create_parking_fixture(
 @pytest.fixture
 def lleida_parking(create_parking_fixture: CreateParkingType) -> Parking:
     return create_parking_fixture("Lleida Parking", "Lleida", 10)
-

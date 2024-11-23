@@ -7,6 +7,7 @@ import pytest
 from infrastructure.viewer_context.viewer_context import ViewerContext
 from infrastructure.tests.logic_test import logic_test
 from main_app.accounts.tests.fixtures import *
+from main_app.parkings.models import Parking
 
 
 @logic_test
@@ -15,7 +16,6 @@ def test__can_enter_parking__increase_occupied_lots(
     ironman: User,
     ironman_viewer_context: ViewerContext,
 ) -> None:
-
     assert lleida_parking.occupied_lots == 0
 
     create_parking_entry(
@@ -33,7 +33,6 @@ def test__can_exit_parking__decrease_occupied_lots(
     ironman: User,
     ironman_viewer_context: ViewerContext,
 ) -> None:
-
     create_parking_entry(
         ironman_viewer_context, lleida_parking.unique_id, EntryType.ENTRANCE
     )
@@ -56,6 +55,5 @@ def test__can_enter_parking__fail__parking_does_not_exist(
     ironman: User,
     ironman_viewer_context: ViewerContext,
 ) -> None:
-
     with pytest.raises(ValueError) as e:
         create_parking_entry(ironman_viewer_context, uuid.uuid4(), EntryType.ENTRANCE)

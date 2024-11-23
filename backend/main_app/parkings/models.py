@@ -14,7 +14,7 @@ class Parking(models.Model):
     total_lots = models.IntegerField(null=False, blank=False)
     occupied_lots = models.IntegerField(default=0)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -22,5 +22,5 @@ class ParkingEntry(models.Model):
     parking = models.ForeignKey(Parking, on_delete=models.CASCADE)
     entry_type = models.CharField(max_length=2, choices=EntryType.choices)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.parking.name} - {self.entry_type}"
