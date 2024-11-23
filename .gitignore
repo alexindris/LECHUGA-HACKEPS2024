@@ -7,3 +7,5 @@ devbox.lock
 
 .pytest_cache
 .coverage
+
+ai/*.csv

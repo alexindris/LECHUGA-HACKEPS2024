@@ -1,4 +1,8 @@
 import datetime
+from infrastructure.service_locator.geolocation_service import (
+    Coordinates,
+    GeocodingService,
+)
 from infrastructure.service_locator.time_service import TimeService
 
 
@@ -16,3 +20,8 @@ class MockTimeService(TimeService):
     def advance_time(self, seconds: int) -> datetime.datetime:
         self.current_time += datetime.timedelta(seconds=seconds)
         return self.current_time
+
+
+class MockGeoCodingService(GeocodingService):
+    def get_coordinates(self, address: str) -> Coordinates:
+        return Coordinates("0", "0")

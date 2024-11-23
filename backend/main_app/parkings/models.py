@@ -13,6 +13,8 @@ class Parking(models.Model):
     address = models.CharField(max_length=100, null=False, blank=False)
     total_lots = models.IntegerField(null=False, blank=False)
     occupied_lots = models.IntegerField(default=0)
+    latitude = models.CharField(max_length=100, null=False, blank=False, default="0")
+    longitude = models.CharField(max_length=100, null=False, blank=False, default="0")
 
     def __str__(self) -> str:
         return self.name

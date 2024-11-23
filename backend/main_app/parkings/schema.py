@@ -40,6 +40,8 @@ class ParkingType(graphene.ObjectType):
     total_lots = graphene.Int(required=True)
     occupied_lots = graphene.Int(required=True)
     entries = graphene.List(ParkingEntry, required=True)
+    latitude = graphene.String()
+    longitude = graphene.String()
 
     @staticmethod
     def get_from_parking(parking):
@@ -49,6 +51,8 @@ class ParkingType(graphene.ObjectType):
             address=parking.address,
             total_lots=parking.total_lots,
             occupied_lots=parking.occupied_lots,
+            latitude=parking.latitude,
+            longitude=parking.longitude,
         )
 
     def resolve_entries(self, info):

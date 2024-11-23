@@ -30,7 +30,10 @@ def on_message(client: mqtt.Client, userdata: Any, msg: mqtt.MQTTMessage) -> Non
         else:
             entry_type = EntryType.EXIT
 
-        create_parking_entry(vc, parkin_id, entry_type)
+        try:
+            create_parking_entry(vc, parkin_id, entry_type)
+        except Exception as e:
+            print(f"Error creating parking entry: {e}")
     print(f"Received message from topic {msg.topic}: {msg.payload.decode()}")
 
 
