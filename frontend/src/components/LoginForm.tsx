@@ -50,18 +50,16 @@ export function LoginForm() {
   }
 
   return (
-    <Card className='mx-auto max-w-sm'>
+    <Card className='mx-auto max-w-sm border-none shadow-none'>
       <CardHeader>
-        <CardTitle className='text-2xl'>Login</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account
-        </CardDescription>
+
+        <img src='/public/app_logo.png' alt='logo' />
       </CardHeader>
       <CardContent>
         <ErrorMessage errorMessage={errorMessage} />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className='grid gap-4'>
+            <div className='grid gap-4 items-center'>
               <div className='grid gap-2'>
                 <FormField
                   control={form.control}
@@ -70,10 +68,10 @@ export function LoginForm() {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} placeholder='Email' />
                       </FormControl>
-                      <FormDescription>Your email address</FormDescription>
-                      <FormMessage />
+                      <FormDescription className='text-slate-500'>Enter your email address</FormDescription>
+                      <FormMessage className='text-red-500' />
                     </FormItem>
                   )}
                 />
@@ -88,15 +86,18 @@ export function LoginForm() {
                       <FormControl>
                         <Input {...field} type='password' />
                       </FormControl>
-                      <FormDescription>Your Password</FormDescription>
-                      <FormMessage />
+                      <FormDescription className='text-slate-500'>Enter your password</FormDescription>
+                      <FormMessage className='text-red-500' />
                     </FormItem>
                   )}
                 />
               </div>
-              <Button type='submit' className='w-full'>
-                Login
-              </Button>
+              <div className='w-full items-center justify-center flex'>
+                <Button type='submit' className='w-fit'>
+                  Continue
+                </Button>
+              </div>
+
             </div>
             <div className='mt-4 text-center text-sm'>
               Don&apos;t have an account?{" "}

@@ -50,3 +50,8 @@ IMPORTANT TO BE TSX. IF NOT, SHIT HAPPENS.
 2. Create the test there
 3. Create the necesari things, probably in the actions.py file
 4. TDD
+
+
+pytest
+mypy .
+black
