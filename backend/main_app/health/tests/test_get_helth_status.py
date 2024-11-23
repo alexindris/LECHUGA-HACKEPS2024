@@ -6,6 +6,7 @@ from main_app.accounts.tests.api_fixtures import *
 from main_app.health.tests.api_fixtures import *
 from typing import Any
 
+
 @view_test
 def test_get_health_status(
     anonymous_client: Client,

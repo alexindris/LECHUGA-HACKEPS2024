@@ -1,4 +1,3 @@
-
 from dataclasses import dataclass
 
 
@@ -7,5 +6,3 @@ class UserType:
     identifier: str
     name: str
     email: str
-    
-

@@ -8,7 +8,6 @@ from infrastructure.service_locator.time_service import SystemTimeService, TimeS
 
 
 class ServiceLocatorBase(ABC):
-
     @abstractmethod
     def timeService(self) -> TimeService:
         pass
@@ -19,7 +18,6 @@ class ServiceLocatorBase(ABC):
 
 
 class ServiceLocator(ServiceLocatorBase):
-
     # file_storage_service: FileStorageService
     time_service: TimeService
 

@@ -4,7 +4,6 @@ from infrastructure.service_locator.time_service import TimeService
 
 
 class MockServiceLocator(ServiceLocatorBase):
-
     mock_time_service: MockTimeService
 
     def __init__(self) -> None:

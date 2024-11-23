@@ -23,7 +23,6 @@ CreateUserType = Callable[
 
 @pytest.fixture
 def create_user_fixture(all_powerful_viewer_context: ViewerContext) -> CreateUserType:
-
     def create_user_func(
         name: str,
         email: str,

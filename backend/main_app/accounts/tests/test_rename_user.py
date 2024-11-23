@@ -11,7 +11,6 @@ from main_app.accounts.models import User
 def test__rename_user__success(
     ironman: User, ironman_viewer_context: ViewerContext
 ) -> None:
-
     response = rename_user(ironman_viewer_context, ironman, "newIronmanName")
     assert response.name == "newIronmanName"
 

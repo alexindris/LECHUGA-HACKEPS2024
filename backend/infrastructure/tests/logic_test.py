@@ -7,7 +7,6 @@ F = TypeVar("F", bound=Callable[..., Any])
 
 
 def logic_test(func: F) -> F:
-
     @wraps(func)
     def wrapper(*args: Any, **kwargs: Any) -> Any:
         return func(*args, **kwargs)

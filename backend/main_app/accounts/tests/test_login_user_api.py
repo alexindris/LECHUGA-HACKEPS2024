@@ -7,7 +7,6 @@ def test__login_user__success(
     login_user: LoginUserType,
     fury: LoginResponse,
 ) -> None:
-
     login = login_user("fury@shield.com", "patch")
 
     assert login.token == fury.token
@@ -18,7 +17,6 @@ def test__login_user__success(
 def test__login_user__wrong_password(
     login_user: LoginUserType,
 ) -> None:
-
     with AssertReturnsGraphQLError() as gql_error:
         login_user("odin", "wrong_password")
 
@@ -30,7 +28,6 @@ def test__login_user__wrong_password(
 def test__login_user__wrong_email(
     login_user: LoginUserType,
 ) -> None:
-
     with AssertReturnsGraphQLError() as gql_error:
         login_user("wrong_email", "patch")
 

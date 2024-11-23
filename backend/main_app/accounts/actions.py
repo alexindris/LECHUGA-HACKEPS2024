@@ -48,7 +48,6 @@ def create_user_token(
 
 @is_same_user()
 def rename_user(viewer_context: ViewerContext, user: User, name: str) -> User:
-
     user.name = name
     user.save()
     return user

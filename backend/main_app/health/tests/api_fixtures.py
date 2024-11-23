@@ -5,6 +5,7 @@ from main_app.api.dataclass_parser import parse_response
 from typing import Callable
 from django.test import Client
 
+
 @dataclass
 class GetHealthResponse:
     status: str

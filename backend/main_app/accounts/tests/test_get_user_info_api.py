@@ -9,7 +9,6 @@ def test__user_has_his_own_info(
     ironman: LoginResponse,
     get_me: GetMeUserRequestType,
 ) -> None:
-
     response = get_me(ironman.client)
 
     assert response.me.name == "ironman"
@@ -22,7 +21,6 @@ def test__anonymous_user_has_no_info(
     anonymous_client: Client,
     get_me: GetMeUserRequestType,
 ) -> None:
-
     with AssertReturnsGraphQLError() as gql_error:
         get_me(anonymous_client)
 

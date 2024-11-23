@@ -9,7 +9,6 @@ import pytest
 def test__create_user__success(
     anonymous_viewer_context: ViewerContext,
 ) -> None:
-
     response = create_user(anonymous_viewer_context, "fury", "fury@fury.com", "patch")
 
     assert response.name == "fury"
@@ -21,7 +20,6 @@ def test__create_user__success(
 def test__create_user__already_exists(
     anonymous_viewer_context: ViewerContext,
 ) -> None:
-
     create_user(anonymous_viewer_context, "fury", "fury@fury.com", "patch")
 
     with pytest.raises(UserAlreadyExists) as error:

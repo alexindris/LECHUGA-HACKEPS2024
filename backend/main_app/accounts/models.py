@@ -12,7 +12,6 @@ class UserManager(BaseUserManager["User"]):
         username: Optional[str] = None,
         password: Optional[str] = None,
     ) -> "User":
-
         if not username:
             username = get_username_from_email(email)
 
@@ -27,17 +26,18 @@ class UserManager(BaseUserManager["User"]):
         return user
 
     def create_superuser(
-        self, username: str, password: str, email: str,
+        self,
+        username: str,
+        password: str,
+        email: Optional[str] = None,
     ) -> "User":
         user = self.create_user(
             name=username,
             username=username,
-            email=email,
+            email=email or f"{username}@admin.com",
             password=password,
         )
         user.is_admin = True
-        user.save(using=self._db)
-        return user
 
 
 class User(AbstractBaseUser):
