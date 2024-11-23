@@ -1,0 +1,6 @@
+{
+  "appTitle": "look4park",
+  "@appTitle": {
+    "description": "The title of the application"
+  }
+}
