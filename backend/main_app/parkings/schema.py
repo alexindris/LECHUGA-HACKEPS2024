@@ -1,6 +1,6 @@
 import graphene
 
-from main_app.parkings.actions import create_parking
+from main_app.parkings.actions import create_parking, predict_parking
 from main_app.parkings.getter import get_all_parkings, get_parking_by_id
 from main_app.parkings.models import Parking
 
@@ -92,3 +92,9 @@ class CreateParkingMutation(graphene.Mutation):
         viewer_context = info.context.viewer_context
         parking = create_parking(viewer_context, name, address, total_lots)
         return CreateParkingMutation(parking=ParkingType.get_from_parking(parking))
+
+
+def get_prediction(info, datetime):
+    viewer_context = info.context.viewer_context
+
+    return predict_parking(viewer_context, datetime)

@@ -1,3 +1,4 @@
+import datetime
 from infrastructure.privacy_rules.privacy_rules import is_authenticated
 from infrastructure.service_locator.service_locator import get_service_locator
 from infrastructure.viewer_context.viewer_context import ViewerContext
@@ -49,3 +50,7 @@ def create_parking_entry(
     with transaction.atomic():
         parking.save()
         return ParkingEntry.objects.create(parking=parking, entry_type=entry_type)
+
+
+def predict_parking(viewer_context: ViewerContext, date: datetime.datetime) -> int:
+    return get_service_locator().predictionService().predict_parking(date)

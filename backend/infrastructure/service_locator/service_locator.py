@@ -8,6 +8,10 @@ from infrastructure.service_locator.geolocation_service import (
     GeocodingService,
     NomatimGeocodingService,
 )
+from infrastructure.service_locator.predition_service import (
+    ParkingPredictionService,
+    PredictionService,
+)
 from infrastructure.service_locator.time_service import SystemTimeService, TimeService
 
 
@@ -20,22 +24,29 @@ class ServiceLocatorBase(ABC):
     def geolocationService(self) -> GeocodingService:
         pass
 
+    @abstractmethod
+    def predictionService(self) -> PredictionService:
+        pass
+
 
 class ServiceLocator(ServiceLocatorBase):
-    # file_storage_service: FileStorageService
     time_service: TimeService
     geocoding_service: GeocodingService
+    prediction_service: PredictionService
 
     def __init__(self) -> None:
         self.geocoding_service = NomatimGeocodingService()
-
         self.time_service = SystemTimeService()
+        self.prediction_service = ParkingPredictionService()
 
     def timeService(self) -> TimeService:
         return self.time_service
 
     def geolocationService(self) -> GeocodingService:
         return self.geocoding_service
+
+    def predictionService(self) -> PredictionService:
+        return self.prediction_service
 
 
 service_locator: Optional[ServiceLocatorBase] = None
