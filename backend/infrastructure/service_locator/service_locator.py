@@ -4,6 +4,10 @@ import os
 from pathlib import Path
 from typing import Optional
 
+from infrastructure.service_locator.geolocation_service import (
+    GeocodingService,
+    NomatimGeocodingService,
+)
 from infrastructure.service_locator.time_service import SystemTimeService, TimeService
 
 
@@ -12,27 +16,26 @@ class ServiceLocatorBase(ABC):
     def timeService(self) -> TimeService:
         pass
 
-    # @abstractmethod
-    # def file_storage_service(self) -> FileStorageService:
-    #     pass
+    @abstractmethod
+    def geolocationService(self) -> GeocodingService:
+        pass
 
 
 class ServiceLocator(ServiceLocatorBase):
     # file_storage_service: FileStorageService
     time_service: TimeService
+    geocoding_service: GeocodingService
 
     def __init__(self) -> None:
-        # self.file_storage_service = S3FileStorage(
-        #     AWS_ACCESS_KEY_ID,
-        #     AWS_SECRET_ACCESS_KEY,
-        # )
+        self.geocoding_service = NomatimGeocodingService()
+
         self.time_service = SystemTimeService()
 
     def timeService(self) -> TimeService:
         return self.time_service
 
-    # def file_storage_service(self) -> FileStorageService:
-    #     return self.file_storage_service
+    def geolocationService(self) -> GeocodingService:
+        return self.geocoding_service
 
 
 service_locator: Optional[ServiceLocatorBase] = None
