@@ -1,0 +1,38 @@
+name: CI Backend - Test and Type Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run Tests and Type Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          path: backend
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9" 
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt; fi
+
+      # Run mypy
+      - name: Run mypy
+        run: mypy .
+
+      # Run pytest
+      - name: Run pytest
+        run: pytest --maxfail=3 --disable-warnings
