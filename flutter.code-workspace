@@ -1,0 +1,12 @@
+{
+    "folders": [
+        {
+            "path": "./look4park",
+            "name": "app"
+        },
+        {
+            "path": ".",
+            "name": "root"
+        }
+    ]
+}
