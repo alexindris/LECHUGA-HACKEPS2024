@@ -18,6 +18,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: backend
+          sparse-checkout: |
+            backend/
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -29,10 +31,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Run mypy
       - name: Run mypy
         run: mypy .
 
-      # Run pytest
       - name: Run pytest
-        run: pytest --maxfail=3 --disable-warnings
+        run: pytest . -n auto
