@@ -1,0 +1,23 @@
+{
+  "name": "Dev Container",
+  "image": "mcr.microsoft.com/devcontainers/base:jammy",
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.9"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["golang.go"]
+    }
+  }
+  // "postCreateCommand": "
+  //     curl -fsSL https://get.pnpm.io/install.sh | sh - &&
+  //     go install github.com/go-task/task/v3/cmd/task@latest &&
+  //     python3 -m venv .venv &&
+  //     . .venv/bin/activate
+  // "
+}

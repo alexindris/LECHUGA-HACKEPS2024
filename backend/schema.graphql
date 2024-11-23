@@ -1,0 +1,37 @@
+type Query {
+  me: UserType!
+  health: HealthType!
+}
+
+type UserType {
+  identifier: UserID!
+  name: String!
+  email: String!
+}
+
+scalar UserID
+
+type HealthType {
+  status: String!
+  time: DateTime!
+}
+
+"""
+The `DateTime` scalar type represents a DateTime
+value as specified by
+[iso8601](https://en.wikipedia.org/wiki/ISO_8601).
+"""
+scalar DateTime
+
+type Mutation {
+  createUser(email: String!, name: String!, password: String!): CreateUserMutation!
+  loginUser(email: String!, password: String!): LoginUserMutation!
+}
+
+type CreateUserMutation {
+  user: UserType!
+}
+
+type LoginUserMutation {
+  token: String!
+}

@@ -1,0 +1,9 @@
+.venv
+
+.devbox
+devbox.lock
+
+.env
+
+.pytest_cache
+.coverage

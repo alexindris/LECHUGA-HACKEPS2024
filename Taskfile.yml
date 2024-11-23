@@ -1,0 +1,24 @@
+# https://taskfile.dev
+
+version: "3"
+tasks:
+  backend:
+    cmds:
+      - cd backend && python manage.py runserver 2>&1 | sed $'s/^/\033[36m[Backend] /'
+
+  frontend:
+    cmds:
+      - cd frontend && FORCE_COLOR=1 npm start 2>&1 | sed $'s/^/\033[35m[Frontend] /'
+
+  dev:
+    desc: Run both backend and frontend simultaneously with labeled logs
+    cmds:
+      - |
+        trap 'kill 0' EXIT;
+        task backend & task frontend & wait
+
+  deps:
+    desc: Install Dependencies
+    cmds:
+      - cd frontend && pnpm install
+      - cd backend && pip install -r requirements.txt

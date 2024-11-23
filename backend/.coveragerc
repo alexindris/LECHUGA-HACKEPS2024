@@ -1,0 +1,24 @@
+[run]
+omit =
+    */manage.py
+    */asgi.py
+    */wsgi.py
+    */migrations/*
+    */__init__.py
+    */dataclass_parser.py
+    */infrastructure/logging/*
+    */graphql_fixtures.py
+
+[report]
+exclude_lines =
+    # Ignore standard if __name__ == "__main__" condition
+    if __name__ == .__main__.:
+    # Ignore coverage in no-op functions or pass statements
+    def __repr__
+    def __str__
+    def __unicode__
+    raise NotImplementedError
+    return NotImplemented
+
+[html]
+directory = htmlcov
