@@ -84,7 +84,7 @@ export function LoginForm() {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input {...field} type='password' />
+                        <Input {...field} type='password' placeholder='Password' />
                       </FormControl>
                       <FormDescription className='text-slate-500'>Enter your password</FormDescription>
                       <FormMessage className='text-red-500' />
@@ -101,7 +101,7 @@ export function LoginForm() {
             </div>
             <div className='mt-4 text-center text-sm'>
               Don&apos;t have an account?{" "}
-              <Link href='#' className='underline'>
+              <Link to='/auth/signup' className='underline'>
                 Sign up
               </Link>
             </div>

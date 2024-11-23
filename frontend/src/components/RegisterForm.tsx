@@ -2,9 +2,7 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "@tanstack/react-router";
@@ -23,7 +21,6 @@ import {
 import { useUserStore } from '@/stores/storeProvider';
 import { useState } from 'react';
 import { ErrorMessage } from './ErrorMessage';
-import Cookies from 'js-cookie';
 import { registerSchema } from '@/formSchemas/signupSchema';
 import { Checkbox } from './ui/checkbox';
 
@@ -146,7 +143,7 @@ export function RegisterForm() {
             </div>
             <div className='mt-4 text-center text-sm'>
               Do you have an account?{' '}
-              <Link href='#' className='underline'>
+              <Link to='/auth/signin' className='underline'>
                 Sign in
               </Link>
             </div>
