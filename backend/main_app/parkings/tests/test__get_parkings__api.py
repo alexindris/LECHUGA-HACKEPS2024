@@ -40,3 +40,17 @@ def test__can_list_all_parking__success(
     assert parkings[0].address == "Lleida"
     assert parkings[0].totalLots == 10
     assert parkings[0].occupiedLots == 0
+
+
+@view_test
+def test__can_list_parking__success(
+    get_parking: GetParkingRequestType,
+    ironman: LoginResponse,
+    lleida_parking: ParkingType,
+) -> None:
+    parking = get_parking(ironman.client, lleida_parking.identifier)
+
+    assert parking.name == "Lleida Parking"
+    assert parking.address == "Lleida"
+    assert parking.totalLots == 10
+    assert parking.entries == []

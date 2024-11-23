@@ -23,7 +23,7 @@ def get_all_parkings(
     def _get_parkings(client: Client) -> List[ParkingType]:
         query = """
             query GetParkings {
-                parking {
+                allParkings {
                     identifier
                     name
                     address
@@ -41,10 +41,47 @@ def get_all_parkings(
 
         return [
             parse_response(ParkingType, parking)
-            for parking in response["data"]["parking"]
+            for parking in response["data"]["allParkings"]
         ]
 
     return _get_parkings
+
+
+GetParkingRequestType = Callable[[Client, str], ParkingType]
+
+
+@pytest.fixture
+def get_parking(
+    execute_graphql_query: ExecuteGraphQLType,
+) -> GetParkingRequestType:
+    def _get_parking(client: Client, identifier: str) -> ParkingType:
+        query = """
+            query GetParking($identifier: String!) {
+                parking(identifier: $identifier) {
+                    identifier
+                    name
+                    address
+                    totalLots
+                    occupiedLots
+                    entries {
+                        entryType
+                        createdAt
+                        }
+                }
+            }
+            """
+
+        response = execute_graphql_query(
+            client,
+            query,
+            {
+                "identifier": identifier,
+            },
+        )
+
+        return parse_response(ParkingType, response["data"]["parking"])
+
+    return _get_parking
 
 
 CreateParkingRequestType = Callable[[Client, str, str, int], ParkingType]

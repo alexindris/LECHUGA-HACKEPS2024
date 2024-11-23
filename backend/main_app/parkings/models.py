@@ -17,10 +17,14 @@ class Parking(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    def get_entries(self) -> list["ParkingEntry"]:
+        return list(self.parkingentry_set.all())
+
 
 class ParkingEntry(models.Model):
     parking = models.ForeignKey(Parking, on_delete=models.CASCADE)
     entry_type = models.CharField(max_length=2, choices=EntryType.choices)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return f"{self.parking.name} - {self.entry_type}"

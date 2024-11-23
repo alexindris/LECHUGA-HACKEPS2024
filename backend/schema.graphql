@@ -1,7 +1,8 @@
 type Query {
   me: UserType!
   health: HealthType!
-  parking: [ParkingType]!
+  allParkings: [ParkingType]!
+  parking(identifier: String!): ParkingType
 }
 
 type UserType {
@@ -30,13 +31,32 @@ type ParkingType {
   address: String!
   totalLots: Int!
   occupiedLots: Int!
+  entries: [ParkingEntry]!
 }
 
 scalar ParkingID
 
+type ParkingEntry {
+  entryType: ParkingStatusEnum!
+  createdAt: DateTime!
+}
+
+enum ParkingStatusEnum {
+  ENTRANCE
+  EXIT
+}
+
 type Mutation {
-  createParking(address: String!, name: String!, totalLots: Int!): CreateParkingMutation!
-  createUser(email: String!, name: String!, password: String!): CreateUserMutation!
+  createParking(
+    address: String!
+    name: String!
+    totalLots: Int!
+  ): CreateParkingMutation!
+  createUser(
+    email: String!
+    name: String!
+    password: String!
+  ): CreateUserMutation!
   loginUser(email: String!, password: String!): LoginUserMutation!
 }
 
