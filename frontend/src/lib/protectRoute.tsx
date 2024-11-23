@@ -4,7 +4,15 @@ import {
   FileRoutesByPath,
   redirect,
 } from "@tanstack/react-router";
+import Cookies from 'js-cookie';
 import React from "react";
+
+
+function isLoggedIn() {
+  const auth = Cookies.get('auth')
+  return !!auth
+}
+
 
 // Keep any existing beforeLoad logic
 type ProtectedRouteOptions = {
@@ -16,14 +24,26 @@ export function createProtectRoute({ path, component }: ProtectedRouteOptions) {
   return createFileRoute(path)({
     component: component,
     beforeLoad: async ({ location }) => {
-      // if (!isAuthenticated()) {
-      if (true) {
+      if (!isLoggedIn()) {
         throw redirect({
           to: "/auth/signin",
           search: {
-            // Use the current location to power a redirect after login
-            // (Do not use `router.state.resolvedLocation` as it can
-            // potentially lag behind the actual current location)
+            redirect: location.href,
+          },
+        });
+      }
+    },
+  });
+}
+
+export function createNonLoggedRoute({ path, component }: ProtectedRouteOptions) {
+  return createFileRoute(path)({
+    component: component,
+    beforeLoad: async ({ location }) => {
+      if (isLoggedIn()) {
+        throw redirect({
+          to: "/me",
+          search: {
             redirect: location.href,
           },
         });

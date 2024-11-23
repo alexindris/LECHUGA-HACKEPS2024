@@ -25,6 +25,7 @@ export class UserStore {
         variables: { email, password },
       });
       this.setToken(data?.loginUser?.token ?? '');
+      return { token: this.userToken }
     } catch (e: any) {
       return { errorMessage: e.message }
     }

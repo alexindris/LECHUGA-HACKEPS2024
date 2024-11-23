@@ -17,8 +17,6 @@ export const AppStoreProvider: React.FC<{ children: React.ReactNode }> = ({
       </ParkingStoreContext.Provider>
     </UserStoreContext.Provider>
   );
-
-
 };
 
 export const useUserStore = () => {

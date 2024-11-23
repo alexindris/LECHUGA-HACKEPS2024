@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { LoginForm } from "@/components/LoginForm";
+import { createNonLoggedRoute } from '@/lib/protectRoute';
 
-export const Route = createFileRoute("/auth/signin")({
+export const Route = createNonLoggedRoute({
+  path: "/auth/signin",
   component: RouteComponent,
 });
 

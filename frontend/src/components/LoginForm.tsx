@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,6 +24,7 @@ import {
 import { useUserStore } from '@/stores/storeProvider';
 import { useState } from 'react';
 import { ErrorMessage } from './ErrorMessage';
+import Cookies from 'js-cookie';
 
 export function LoginForm() {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -34,17 +35,18 @@ export function LoginForm() {
     },
   });
 
-
+  const navigate = useNavigate();
   const userStore = useUserStore();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
-    console.log(values)
-
-
     const a = await userStore.login(values.email, values.password);
-    if (a?.errorMessage) setErrorMessage(a.errorMessage);
-
+    if (a.token) {
+      Cookies.set('auth', a.token);
+      navigate({ to: '/me' })
+    }
+    else if (a?.errorMessage) setErrorMessage(a.errorMessage);
+    else setErrorMessage('Unknown error')
   }
 
   return (
