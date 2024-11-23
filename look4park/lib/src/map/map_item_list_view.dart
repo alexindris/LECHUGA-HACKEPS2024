@@ -26,9 +26,10 @@ class SampleItemListView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         // AppBar with Custom Color
-        backgroundColor: const Color(0xFFE0F2FE), // Set your custom color here
         title: Image.asset(
-          'assets/images/app_logo.png', // Replace with your logo's path
+          Theme.of(context).brightness == Brightness.dark
+              ? 'assets/images/app_logo_inverted.png' // Replace with your dark theme logo's path
+              : 'assets/images/app_logo.png', // Replace with your light theme logo's path
           height: 40, // Adjust the height of the logo
         ),
         centerTitle: true, // Ensure the logo is centered
@@ -52,7 +53,6 @@ class SampleItemListView extends StatelessWidget {
                 'Choose Parking', // Replace with your desired title
                 style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: const Color(0xFF0369A1),
                     ),
               ),
             ),
