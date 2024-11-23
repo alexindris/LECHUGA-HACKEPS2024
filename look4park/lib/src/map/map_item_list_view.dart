@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../settings/settings_view.dart';
 import 'map_item_details_view.dart';
@@ -17,6 +19,8 @@ class SampleItemListView extends StatelessWidget {
         address
         totalLots
         occupiedLots
+        latitude
+        longitude
       }
     }
   """;
@@ -25,14 +29,13 @@ class SampleItemListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // AppBar with Custom Color
         title: Image.asset(
           Theme.of(context).brightness == Brightness.dark
-              ? 'assets/images/app_logo_inverted.png' // Replace with your dark theme logo's path
-              : 'assets/images/app_logo.png', // Replace with your light theme logo's path
-          height: 40, // Adjust the height of the logo
+              ? 'assets/images/app_logo_inverted.png'
+              : 'assets/images/app_logo.png',
+          height: 40,
         ),
-        centerTitle: true, // Ensure the logo is centered
+        centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -42,43 +45,65 @@ class SampleItemListView extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Add your title inside the body
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: Text(
-                'Choose Parking', // Replace with your desired title
-                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
+      body: Query(
+        options: QueryOptions(
+          document: gql(query),
+          pollInterval: const Duration(seconds: 30),
+        ),
+        builder: (QueryResult result,
+            {VoidCallback? refetch, FetchMore? fetchMore}) {
+          if (result.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (result.hasException) {
+            return Center(
+              child: Text('Error: ${result.exception.toString()}'),
+            );
+          }
+
+          final List parkings = result.data?['allParkings'] ?? [];
+
+          // Create markers for each parking location
+          final List<Marker> markers = parkings.map((parking) {
+            return Marker(
+              point: LatLng(
+                double.parse(parking['latitude']),
+                double.parse(parking['longitude']),
+              ),
+              child: const Icon(
+                Icons.location_on,
+                color: Colors.red,
+                size: 30,
+              ),
+            );
+          }).toList();
+
+          return Column(
+            children: [
+              Expanded(
+                flex: 2,
+                child: FlutterMap(
+                  options: MapOptions(
+                    initialCenter: markers.isNotEmpty
+                        ? markers.first.point
+                        : const LatLng(0, 0), // Default to (0,0) if no markers
+                    minZoom: 12,
+                  ),
+                  children: [
+                    TileLayer(
+                      urlTemplate:
+                          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                      subdomains: const ['a', 'b', 'c'],
+                      userAgentPackageName: 'com.example.app',
                     ),
+                    MarkerLayer(markers: markers),
+                  ],
+                ),
               ),
-            ),
-          ),
-          Expanded(
-            child: Query(
-              options: QueryOptions(
-                document: gql(query),
-                pollInterval: const Duration(seconds: 30),
-              ),
-              builder: (QueryResult result,
-                  {VoidCallback? refetch, FetchMore? fetchMore}) {
-                if (result.isLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                if (result.hasException) {
-                  return Center(
-                    child: Text('Error: ${result.exception.toString()}'),
-                  );
-                }
-
-                final List parkings = result.data?['allParkings'] ?? [];
-
-                return ListView.builder(
-                  restorationId: 'mapItemListView',
+              Expanded(
+                flex: 1,
+                child: ListView.builder(
                   itemCount: parkings.length,
                   itemBuilder: (BuildContext context, int index) {
                     final parking = parkings[index];
@@ -99,11 +124,11 @@ class SampleItemListView extends StatelessWidget {
                       },
                     );
                   },
-                );
-              },
-            ),
-          ),
-        ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

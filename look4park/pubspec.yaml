@@ -18,6 +18,8 @@ dependencies:
   flutter_hooks: ^0.18.0
   graphql_flutter: ^5.1.2
   shared_preferences: ^2.3.3
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
 
 dev_dependencies:
   flutter_test:
