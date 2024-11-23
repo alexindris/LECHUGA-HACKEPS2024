@@ -52,7 +52,6 @@ class ParkingType(graphene.ObjectType):
         )
 
     def resolve_entries(self, info):
-
         return [
             ParkingEntry.get_from_entry(entry)
             for entry in self.identifier.get_entries()
