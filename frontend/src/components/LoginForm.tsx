@@ -7,7 +7,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Link } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -22,8 +21,9 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import { useMutation } from "@apollo/client";
-import { LOGIN_USER } from "@/lib/api";
+import { useUserStore } from '@/stores/storeProvider';
+import { useState } from 'react';
+import { ErrorMessage } from './ErrorMessage';
 
 export function LoginForm() {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -34,19 +34,17 @@ export function LoginForm() {
     },
   });
 
-  const [login, { error, data }] = useMutation(LOGIN_USER);
+
+  const userStore = useUserStore();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
-    console.log(values);
+    console.log(values)
 
-    const result = await login({
-      variables: {
-        email: values.email,
-        password: values.password,
-      },
-    });
 
-    console.log(result);
+    const a = await userStore.login(values.email, values.password);
+    if (a?.errorMessage) setErrorMessage(a.errorMessage);
+
   }
 
   return (
@@ -58,6 +56,7 @@ export function LoginForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        <ErrorMessage errorMessage={errorMessage} />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className='grid gap-4'>

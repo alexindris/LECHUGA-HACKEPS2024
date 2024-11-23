@@ -1,14 +1,10 @@
 import React from "react";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
-import { CounterStoreProvider } from "./stores/storeProvider";
+import { AppStoreProvider } from "./stores/storeProvider";
+import { apolloClient } from './lib/utils';
 
-// Initialize Apollo Client
-const client = new ApolloClient({
-  uri: "http://localhost:8000/graphql/",
-  cache: new InMemoryCache(),
-});
 
 // Set up the router
 const router = createRouter({
@@ -26,10 +22,10 @@ declare module "@tanstack/react-router" {
 export const App = () => {
   return (
     <React.StrictMode>
-      <ApolloProvider client={client}>
-        <CounterStoreProvider>
+      <ApolloProvider client={apolloClient}>
+        <AppStoreProvider>
           <RouterProvider router={router} />
-        </CounterStoreProvider>
+        </AppStoreProvider>
       </ApolloProvider>
     </React.StrictMode>
   );

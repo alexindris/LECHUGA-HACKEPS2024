@@ -9,7 +9,7 @@ export const GET_HEALTH = gql(/* GraphQL */ `
   }
 `);
 export const LOGIN_USER = gql(`
-  mutation LoginUser($email: String!, $password: String!){
+  mutation LoginUsr($email: String!, $password: String!){
     loginUser(email:$email, password: $password) {
         token,
     }

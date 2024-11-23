@@ -1,25 +1,40 @@
-import React, { createContext, useContext } from "react";
-import { CounterStore } from "@/stores/store";
+import React, { createContext, useContext, useMemo } from "react";
+import { ParkingStore, UserStore } from './store';
 
-const CounterStoreContext = createContext<CounterStore | null>(null);
+const UserStoreContext = createContext<UserStore | null>(null);
+const ParkingStoreContext = createContext<ParkingStore | null>(null);
 
-export const CounterStoreProvider: React.FC<{ children: React.ReactNode }> = ({
+export const AppStoreProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const store = new CounterStore();
+  const userStore = useMemo(() => new UserStore(), []);
+  const parkingStore = useMemo(() => new ParkingStore(), [])
 
   return (
-    <CounterStoreContext.Provider value={store}>
-      {children}
-    </CounterStoreContext.Provider>
+    <UserStoreContext.Provider value={userStore}>
+      <ParkingStoreContext.Provider value={parkingStore}>
+        {children}
+      </ParkingStoreContext.Provider>
+    </UserStoreContext.Provider>
   );
+
+
 };
 
-export const useCounterStore = () => {
-  const context = useContext(CounterStoreContext);
+export const useUserStore = () => {
+  const context = useContext(UserStoreContext);
   if (!context) {
     throw new Error(
-      "useCounterStore must be used within a CounterStoreProvider"
+      "useUserStore must be used within a AppStoreProvider"
+    );
+  }
+  return context;
+};
+export const useParkingStore = () => {
+  const context = useContext(ParkingStoreContext);
+  if (!context) {
+    throw new Error(
+      "useParkingStore must be used within a AppStoreProvider"
     );
   }
   return context;
