@@ -25,7 +25,13 @@ class SampleItemListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sample Items'),
+        // AppBar with Custom Color
+        backgroundColor: const Color(0xFFE0F2FE), // Set your custom color here
+        title: Image.asset(
+          'assets/images/app_logo.png', // Replace with your logo's path
+          height: 40, // Adjust the height of the logo
+        ),
+        centerTitle: true, // Ensure the logo is centered
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
@@ -38,7 +44,7 @@ class SampleItemListView extends StatelessWidget {
       body: Query(
         options: QueryOptions(
           document: gql(query),
-          pollInterval: const Duration(seconds: 10),
+          pollInterval: const Duration(seconds: 30),
         ),
         builder: (QueryResult result,
             {VoidCallback? refetch, FetchMore? fetchMore}) {
