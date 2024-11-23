@@ -71,10 +71,18 @@ class SampleItemListView extends StatelessWidget {
                 double.parse(parking['latitude']),
                 double.parse(parking['longitude']),
               ),
-              child: const Icon(
-                Icons.location_on,
-                color: Colors.red,
-                size: 30,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.restorablePushNamed(
+                    context,
+                    SampleItemDetailsView.routeName,
+                    arguments: parking,
+                  );
+                },
+                child: const Icon(
+                  Icons.location_on,
+                  color: Colors.red,
+                ),
               ),
             );
           }).toList();
