@@ -39,6 +39,8 @@ class UserManager(BaseUserManager["User"]):
         )
         user.is_admin = True
 
+        return user
+
 
 class User(AbstractBaseUser):
     username = models.CharField(max_length=255, unique=True)
