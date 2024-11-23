@@ -1,6 +1,6 @@
 # https://taskfile.dev
 
-version: "3"
+version: '3'
 tasks:
   backend:
     cmds:
@@ -8,7 +8,7 @@ tasks:
 
   frontend:
     cmds:
-      - cd frontend && FORCE_COLOR=1 npm start 2>&1 | sed $'s/^/\033[35m[Frontend] /'
+      - cd frontend && FORCE_COLOR=1 pnpm dev 2>&1 | sed $'s/^/\033[35m[Frontend] /'
 
   dev:
     desc: Run both backend and frontend simultaneously with labeled logs
