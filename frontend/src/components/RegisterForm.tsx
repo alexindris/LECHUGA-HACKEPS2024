@@ -44,6 +44,8 @@ export function RegisterForm() {
 
   async function onSubmit(values: z.infer<typeof registerSchema>) {
     console.log(values)
+    // Add new logic here
+
     // const a = await userStore.login(values.email, values.password);
     // if (a.token) {
     //   Cookies.set('auth', a.token);
