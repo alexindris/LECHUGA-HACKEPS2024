@@ -22,7 +22,7 @@ def test__create_parking__success(
     assert parking.name == name
     assert parking.address == address
     assert parking.total_lots == total_lots
-    assert parking.available_lots == 0
+    assert parking.occupied_lots == 0
     assert Parking.objects.filter(name=name).exists()
 
 
