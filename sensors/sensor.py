@@ -39,16 +39,13 @@ def break_beam_callback(channel):
         status = True
 
     if status:
-        # Crear el diccionario con los datos a enviar
         payload = {
             "parking_id": ID_PARKING,
             "entry_type": ENTRY_TYPE
         }
 
         try:
-            # Convertir el diccionario a una cadena JSON
             payload_json = json.dumps(payload)
-            # Publicar el JSON en el tópico MQTT
             client.publish(MQTT_TOPIC, payload_json)
             print(payload)
         except Exception as e:
