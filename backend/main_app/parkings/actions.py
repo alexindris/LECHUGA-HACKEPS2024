@@ -36,6 +36,12 @@ def create_parking_entry(
     else:
         parking.occupied_lots -= 1
 
+    if parking.occupied_lots < 0:
+        raise ValueError("Parking is empty")
+
+    if parking.occupied_lots > parking.total_lots:
+        raise ValueError("Parking is full")
+
     with transaction.atomic():
         parking.save()
         return ParkingEntry.objects.create(parking=parking, entry_type=entry_type)
