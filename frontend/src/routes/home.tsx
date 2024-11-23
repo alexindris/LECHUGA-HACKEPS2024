@@ -2,10 +2,12 @@ import { GridParkingItem } from '@/components/GridParkingItem';
 import SimpleNav from '@/components/SimpleNav';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { GET_ALL_PARKINGS } from '@/lib/api';
 import { createProtectRoute } from '@/lib/protectRoute';
+import { useQuery } from '@apollo/client';
 import { createFileRoute } from '@tanstack/react-router';
 import { Grid } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LuPlus } from "react-icons/lu";
 
 // export const Route = createProtectRoute({
@@ -15,13 +17,18 @@ import { LuPlus } from "react-icons/lu";
 export const Route = createFileRoute("/home")({
   component: RouteComponent,
 });
+
 function RouteComponent() {
 
-  const [disabledParkingTab, setDisabledParkingTab] = useState(true);
+  const { data } = useQuery(GET_ALL_PARKINGS);
+
+  useEffect(() => {
+    console.log(data)
+  }, [data])
 
   return (
     <div className='flex flex-col h-screen w-full bg-sky-100'>
-      <SimpleNav disabledParkingTab={disabledParkingTab} />
+      <SimpleNav disabledParkingTab={true} />
       <div className='h-full w-full flex flex-col items-center'>
         <div className='bg-sky-700 w-full h-[30rem] items-center justify-center flex gap-14'>
           <span className='text-5xl font-bold text-white text-center'>
@@ -38,16 +45,18 @@ function RouteComponent() {
         <div className='flex h-screen w-full p-10 flex-col bg-sky-100'>
           <span className='text-sky-800 text-5xl w-full text-center font-semibold mb-4'>My Parkings</span>
           <div className='grid  justify-between w-full h-full gap-10 grid-cols-4 '>
-            <GridParkingItem title='Parking 1' occupation='40/50' />
+            {data?.allParkings.map((parking) => {
+              if (!parking) return;
+              return <GridParkingItem key={parking.identifier} title={parking.name} occupation={parking.occupiedLots + '/' + parking.totalLots} />
+            })}
+            {/* 
             <GridParkingItem title='Parking 2' occupation='42/50' />
             <GridParkingItem title='Parking 3' occupation='32/80' />
             <GridParkingItem title='Parking 4' occupation='80/100' />
-            <GridParkingItem title='Parking 5' occupation='100/100' />
-
+            <GridParkingItem title='Parking 5' occupation='100/100' /> */}
 
           </div>
         </div>
-
       </div >
     </div >
   )
