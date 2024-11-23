@@ -47,16 +47,8 @@ enum ParkingStatusEnum {
 }
 
 type Mutation {
-  createParking(
-    address: String!
-    name: String!
-    totalLots: Int!
-  ): CreateParkingMutation!
-  createUser(
-    email: String!
-    name: String!
-    password: String!
-  ): CreateUserMutation!
+  createParking(address: String!, name: String!, totalLots: Int!): CreateParkingMutation!
+  createUser(email: String!, name: String!, password: String!): CreateUserMutation!
   loginUser(email: String!, password: String!): LoginUserMutation!
 }
 
