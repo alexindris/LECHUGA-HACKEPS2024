@@ -1,6 +1,7 @@
 type Query {
   me: UserType!
   health: HealthType!
+  parking: [ParkingType]!
 }
 
 type UserType {
@@ -23,9 +24,24 @@ value as specified by
 """
 scalar DateTime
 
+type ParkingType {
+  identifier: ParkingID!
+  name: String!
+  address: String!
+  totalLots: Int!
+  occupiedLots: Int!
+}
+
+scalar ParkingID
+
 type Mutation {
+  createParking(address: String!, name: String!, totalLots: Int!): CreateParkingMutation!
   createUser(email: String!, name: String!, password: String!): CreateUserMutation!
   loginUser(email: String!, password: String!): LoginUserMutation!
+}
+
+type CreateParkingMutation {
+  parking: ParkingType!
 }
 
 type CreateUserMutation {

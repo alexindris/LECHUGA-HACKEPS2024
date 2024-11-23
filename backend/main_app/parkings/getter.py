@@ -9,3 +9,8 @@ def get_parking_by_id(viewer_context: ViewerContext, parking_id: str) -> Parking
         return Parking.objects.get(unique_id=parking_id)
     except Parking.DoesNotExist:
         raise ValueError("Parking not found")
+
+
+@is_authenticated
+def get_all_parkings(viewer_context: ViewerContext) -> list[Parking]:
+    return list(Parking.objects.all())
