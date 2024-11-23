@@ -17,6 +17,11 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 APP_NAME = "main_app"
 
+# MQTT SETTINGS
+MQTT_HOST = os.environ.get("MQTT_HOST", "test.mosquitto.org")
+MQTT_PORT = int(os.environ.get("MQTT_PORT", 1883))
+MQTT_TOPIC = os.environ.get("MQTT_TOPIC", "lechuga/parking")
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
