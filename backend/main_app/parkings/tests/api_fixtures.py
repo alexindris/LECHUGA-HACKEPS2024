@@ -20,7 +20,6 @@ GetParkingsRequestType = Callable[[Client], List[ParkingType]]
 def get_all_parkings(
     execute_graphql_query: ExecuteGraphQLType,
 ) -> GetParkingsRequestType:
-
     def _get_parkings(client: Client) -> List[ParkingType]:
         query = """
             query GetParkings {
@@ -55,7 +54,6 @@ CreateParkingRequestType = Callable[[Client, str, str, int], ParkingType]
 def create_parking(
     execute_graphql_query: ExecuteGraphQLType,
 ) -> CreateParkingRequestType:
-
     def _create_parking(
         client: Client,
         name: str,
