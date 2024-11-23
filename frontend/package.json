@@ -9,7 +9,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "start": "vite",
-    "codegen": "graphql-codegen --config codegen.ts --watch"
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
     "@apollo/client": "^3.11.10",
@@ -21,6 +21,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "graphql-request": "^7.1.2",
+    "js-cookie": "^3.0.5",
     "lucide-react": "^0.460.0",
     "mobx": "^6.13.5",
     "mobx-react-lite": "^4.0.7",
@@ -39,6 +40,7 @@
     "@graphql-typed-document-node/core": "^3.2.0",
     "@parcel/watcher": "^2.5.0",
     "@tanstack/router-plugin": "^1.81.9",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^22.9.1",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

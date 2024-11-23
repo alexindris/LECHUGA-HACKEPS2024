@@ -7,8 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,8 +21,10 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import { useMutation } from "@apollo/client";
-import { LOGIN_USER } from "@/lib/api";
+import { useUserStore } from '@/stores/storeProvider';
+import { useState } from 'react';
+import { ErrorMessage } from './ErrorMessage';
+import Cookies from 'js-cookie';
 
 export function LoginForm() {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -34,19 +35,18 @@ export function LoginForm() {
     },
   });
 
-  const [login, { error, data }] = useMutation(LOGIN_USER);
+  const navigate = useNavigate();
+  const userStore = useUserStore();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
-    console.log(values);
-
-    const result = await login({
-      variables: {
-        email: values.email,
-        password: values.password,
-      },
-    });
-
-    console.log(result);
+    const a = await userStore.login(values.email, values.password);
+    if (a.token) {
+      Cookies.set('auth', a.token);
+      navigate({ to: '/me' })
+    }
+    else if (a?.errorMessage) setErrorMessage(a.errorMessage);
+    else setErrorMessage('Unknown error')
   }
 
   return (
@@ -58,6 +58,7 @@ export function LoginForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        <ErrorMessage errorMessage={errorMessage} />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className='grid gap-4'>
