@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SampleItemDetailsView extends StatelessWidget {
   static const routeName = '/item-details';
 
   const SampleItemDetailsView({super.key});
+
+  Future<void> _openInMaps(String address) async {
+    final Uri url = Uri.parse(
+        'https://www.google.com/maps/search/?api=1&query=${Uri.encodeComponent(address)}');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +88,15 @@ class SampleItemDetailsView extends StatelessWidget {
                             color: Theme.of(context).primaryColor,
                           ),
                       textAlign: TextAlign.center,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    onPressed: () => _openInMaps(parking['address']),
+                    icon: const Icon(Icons.map),
+                    label: const Text('Open in Maps'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
                     ),
                   ),
                 ]),

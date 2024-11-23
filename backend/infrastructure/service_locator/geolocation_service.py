@@ -10,7 +10,6 @@ class Coordinates:
 
 
 class GeocodingService(ABC):
-
     @abstractmethod
     def get_coordinates(self, address: str) -> Coordinates:
         raise NotImplementedError()

@@ -80,7 +80,12 @@ class MyApp extends StatelessWidget {
   /// Light theme configuration
   ThemeData _lightTheme() {
     return ThemeData(
-      primaryColor: Colors.white, // Light blue
+      primaryColor: Colors.white,
+      colorScheme: ColorScheme.fromSwatch(
+        primarySwatch: Colors.lightBlue,
+        accentColor: Colors.lightBlue[700]!,
+        brightness: Brightness.light,
+      ), // Light blue,
       appBarTheme: const AppBarTheme(
         backgroundColor: Color(0xFFE0F2FE),
         iconTheme: IconThemeData(color: Colors.black),
