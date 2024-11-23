@@ -4,7 +4,7 @@ version: '3'
 tasks:
   backend:
     cmds:
-      - cd backend && python manage.py runserver 2>&1 | sed $'s/^/\033[36m[Backend] /'
+      - cd backend && python manage.py runserver --noreload 2>&1 | sed $'s/^/\033[36m[Backend] /'
 
   frontend:
     cmds:
