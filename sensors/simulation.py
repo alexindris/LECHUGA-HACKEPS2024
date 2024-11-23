@@ -1,8 +1,10 @@
 import time
 import random
 import paho.mqtt.client as mqtt
+import json
 
-ID_PARKING = "PARKING_0"
+ID_PARKING = "b1b7cac2-3a16-4231-aa0a-a431588e8d03"
+ENTRY_TYPE = "ENTRANCE" 
 MQTT_BROKER = "test.mosquitto.org"
 MQTT_PORT = 1883
 MQTT_TOPIC = "lechuga/parking"
@@ -38,15 +40,20 @@ try:
 
         vehicle_count += 1
         try:
-            client.publish(MQTT_TOPIC, f"{ID_PARKING}")
-            print(f"Car detected")
+            payload = {
+            "parking_id": ID_PARKING,
+            "entry_type": ENTRY_TYPE
+            }
+            payload_json = json.dumps(payload)
+            client.publish(MQTT_TOPIC, payload_json)
+            print(payload_json)
         except Exception as e:
             print(f"MQTT publish error: {e}")
 
-try:
-    message = input("Press enter to exit\n\n")
-except KeyboardInterrupt:
-    pass
+    try:
+        message = input("Press enter to exit\n\n")
+    except KeyboardInterrupt:
+        pass
 finally:
     client.loop_stop()
     client.disconnect()
