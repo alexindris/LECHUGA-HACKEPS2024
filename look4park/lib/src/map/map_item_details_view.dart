@@ -12,20 +12,76 @@ class SampleItemDetailsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(parking['name']),
+        title: Image.asset(
+          Theme.of(context).brightness == Brightness.dark
+              ? 'assets/images/app_logo_inverted.png'
+              : 'assets/images/app_logo.png',
+          height: 40,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Identifier: ${parking['identifier']}',
-                style: Theme.of(context).textTheme.titleLarge),
-            const SizedBox(height: 8),
-            Text('Address: ${parking['address']}'),
-            const SizedBox(height: 8),
-            Text('Total Lots: ${parking['totalLots']}'),
-            Text('Occupied Lots: ${parking['occupiedLots']}'),
+            Center(
+              child: Text(
+                parking['name'],
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(fontSize: 40, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 16),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(39),
+                color:
+                    Theme.of(context).floatingActionButtonTheme.backgroundColor,
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: Text(
+                      'Number of free lots',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontSize: 30,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    child: Text(
+                        '   ${parking['totalLots'] - parking['occupiedLots']}/${parking['totalLots']}   ',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                            )),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: Text(
+                      parking['address'],
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            fontSize: 20,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ]),
+              ),
+            ),
           ],
         ),
       ),

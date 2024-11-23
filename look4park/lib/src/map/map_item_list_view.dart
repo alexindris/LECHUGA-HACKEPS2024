@@ -64,7 +64,6 @@ class SampleItemListView extends StatelessWidget {
 
           final List parkings = result.data?['allParkings'] ?? [];
 
-          // Create markers for each parking location
           final List<Marker> markers = parkings.asMap().entries.map((entry) {
             int index = entry.key;
             var parking = entry.value;
@@ -85,13 +84,13 @@ class SampleItemListView extends StatelessWidget {
                   alignment: Alignment.center,
                   children: [
                     const Icon(
-                      Icons.location_on,
+                      Icons.location_on_sharp,
                       color: Colors.red,
                     ),
                     Text(
                       '${index + 1}',
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
