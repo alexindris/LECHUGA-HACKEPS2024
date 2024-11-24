@@ -34,3 +34,5 @@ venv.bak/
 .testmondata
 .testmondata-shm
 .testmondata-wal
+
+firebase_certificate.json

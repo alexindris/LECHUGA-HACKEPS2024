@@ -12,7 +12,6 @@ class RegisterDeviceMutation(graphene.Mutation):
     def mutate(self, info, push_token: str):
         register_device(
             info.context.viewer_context,
-            info.context.viewer_context.identified_user(),
             push_token,
         )
         return RegisterDeviceMutation(success=True)
@@ -27,7 +26,6 @@ class UnregisterDeviceMutation(graphene.Mutation):
     def mutate(self, info, push_token: str):
         _unregister_device(
             info.context.viewer_context,
-            info.context.viewer_context.identified_user(),
             push_token,
         )
         return UnregisterDeviceMutation(success=True)
