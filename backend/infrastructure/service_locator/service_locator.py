@@ -11,6 +11,7 @@ from infrastructure.service_locator.geolocation_service import (
 from infrastructure.service_locator.predition_service import (
     ParkingPredictionService,
     PredictionService,
+)
 from infrastructure.service_locator.push_notifications.firebase_notification_service import (
     FirebaseNotificationService,
 )
@@ -31,6 +32,9 @@ class ServiceLocatorBase(ABC):
 
     @abstractmethod
     def predictionService(self) -> PredictionService:
+        pass
+    
+    @abstractmethod
     def pushNotificationService(self) -> PushNotificationService:
         pass
 
