@@ -48,41 +48,49 @@ function RouteComponent() {
             />
           </div>
         </div>
-        <div className="flex h-max w-full p-10 flex-col bg-sky-700">
-          <span className="text-white text-5xl w-full text-center font-semibold mb-4">
-            Historic
-          </span>
-          <HistoricEventsChart
-            data={
-              data?.parking?.entries?.filter(
-                (entry): entry is ParkingEntry => entry != null
-              ) || []
-            }
-          />
+        {(data?.parking?.entries?.length ?? 0 > 0) ? (
+          <div className="flex h-max w-full p-10 flex-col bg-sky-700">
+            <span className="text-white text-5xl w-full text-center font-semibold mb-4">
+              Historic
+            </span>
+            <HistoricEventsChart
+              data={
+                data?.parking?.entries?.filter(
+                  (entry): entry is ParkingEntry => entry != null
+                ) || []
+              }
+            />
 
-          <span className="text-white text-5xl w-full text-center font-semibold mb-4 mt-10">
-            Last Entrys
-          </span>
-          <div className="mr-auto ml-auto max-w-[60rem] w-full rounded-3xl bg-white h-max py-5">
-            {sortedEntries.map((e) => {
-              const dateObject = parseISO(e?.createdAt);
-              return (
-                <div
-                  key={e?.createdAt}
-                  className="flex items-center w-full mx-5 mr-10 ml-5"
-                >
-                  <span className="text-left font-semibold text-sky-700">
-                    {e?.entryType}
-                  </span>
-                  <div className="flex-grow border-t border-dashed border-sky-700"></div>
-                  <span className="text-right mr-10 font-semibold text-sky-700">
-                    {format(dateObject, "HH:mm")}
-                  </span>
-                </div>
-              );
-            })}
+            <span className="text-white text-5xl w-full text-center font-semibold mb-4 mt-10">
+              Last Entrys
+            </span>
+            <div className="mr-auto ml-auto max-w-[60rem] w-full rounded-3xl bg-white h-max py-5">
+              {sortedEntries.map((e) => {
+                const dateObject = parseISO(e?.createdAt);
+                return (
+                  <div
+                    key={e?.createdAt}
+                    className="flex items-center w-full mx-5 mr-10 ml-5"
+                  >
+                    <span className="text-left font-semibold text-sky-700">
+                      {e?.entryType}
+                    </span>
+                    <div className="flex-grow border-t border-dashed border-sky-700"></div>
+                    <span className="text-right mr-10 font-semibold text-sky-700">
+                      {format(dateObject, "HH:mm")}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex h-screen w-full p-10 flex-col bg-sky-700">
+            <span className="text-white text-5xl w-full text-center font-semibold mb-4">
+              No data yet
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
