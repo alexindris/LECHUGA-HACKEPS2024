@@ -11,12 +11,10 @@ const RouteComponent = observer(() => {
   const parkingStore = useParkingStore();
   const navigator = useNavigate();
 
-  // Add refresh button
   if (parkingStore.parkings.length === 0) {
     parkingStore.getAllParkings()
   }
 
-  // console.log(parkingStore.parkings)
 
   return (
     <div className='flex flex-col h-screen w-full bg-sky-100'>
