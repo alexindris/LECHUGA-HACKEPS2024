@@ -43,3 +43,19 @@ export const GET_ALL_PARKINGS = gql(`
     }
 }
 `);
+
+export const GET_PARKING = gql(`
+  query GetParking($identifier: String!) {
+    parking(identifier: $identifier) {
+        identifier
+        name
+        address
+        totalLots
+        occupiedLots
+        entries {
+          entryType
+          createdAt
+        }
+    }
+}
+`);

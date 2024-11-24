@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as MeImport } from './routes/me'
 import { Route as HomeImport } from './routes/home'
 import { Route as IndexImport } from './routes/index'
+import { Route as ParkingIdentifierImport } from './routes/parking/$identifier'
 import { Route as AuthSignupImport } from './routes/auth/signup'
 import { Route as AuthSigninImport } from './routes/auth/signin'
 
@@ -34,6 +35,12 @@ const HomeRoute = HomeImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ParkingIdentifierRoute = ParkingIdentifierImport.update({
+  id: '/parking/$identifier',
+  path: '/parking/$identifier',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -88,6 +95,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignupImport
       parentRoute: typeof rootRoute
     }
+    '/parking/$identifier': {
+      id: '/parking/$identifier'
+      path: '/parking/$identifier'
+      fullPath: '/parking/$identifier'
+      preLoaderRoute: typeof ParkingIdentifierImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -99,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/me': typeof MeRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/parking/$identifier': typeof ParkingIdentifierRoute
 }
 
 export interface FileRoutesByTo {
@@ -107,6 +122,7 @@ export interface FileRoutesByTo {
   '/me': typeof MeRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/parking/$identifier': typeof ParkingIdentifierRoute
 }
 
 export interface FileRoutesById {
@@ -116,14 +132,34 @@ export interface FileRoutesById {
   '/me': typeof MeRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/parking/$identifier': typeof ParkingIdentifierRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/home' | '/me' | '/auth/signin' | '/auth/signup'
+  fullPaths:
+    | '/'
+    | '/home'
+    | '/me'
+    | '/auth/signin'
+    | '/auth/signup'
+    | '/parking/$identifier'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/home' | '/me' | '/auth/signin' | '/auth/signup'
-  id: '__root__' | '/' | '/home' | '/me' | '/auth/signin' | '/auth/signup'
+  to:
+    | '/'
+    | '/home'
+    | '/me'
+    | '/auth/signin'
+    | '/auth/signup'
+    | '/parking/$identifier'
+  id:
+    | '__root__'
+    | '/'
+    | '/home'
+    | '/me'
+    | '/auth/signin'
+    | '/auth/signup'
+    | '/parking/$identifier'
   fileRoutesById: FileRoutesById
 }
 
@@ -133,6 +169,7 @@ export interface RootRouteChildren {
   MeRoute: typeof MeRoute
   AuthSigninRoute: typeof AuthSigninRoute
   AuthSignupRoute: typeof AuthSignupRoute
+  ParkingIdentifierRoute: typeof ParkingIdentifierRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -141,6 +178,7 @@ const rootRouteChildren: RootRouteChildren = {
   MeRoute: MeRoute,
   AuthSigninRoute: AuthSigninRoute,
   AuthSignupRoute: AuthSignupRoute,
+  ParkingIdentifierRoute: ParkingIdentifierRoute,
 }
 
 export const routeTree = rootRoute
@@ -157,7 +195,8 @@ export const routeTree = rootRoute
         "/home",
         "/me",
         "/auth/signin",
-        "/auth/signup"
+        "/auth/signup",
+        "/parking/$identifier"
       ]
     },
     "/": {
@@ -174,6 +213,9 @@ export const routeTree = rootRoute
     },
     "/auth/signup": {
       "filePath": "auth/signup.tsx"
+    },
+    "/parking/$identifier": {
+      "filePath": "parking/$identifier.tsx"
     }
   }
 }
