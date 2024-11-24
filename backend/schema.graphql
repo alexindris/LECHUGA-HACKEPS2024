@@ -3,6 +3,7 @@ type Query {
   health: HealthType!
   allParkings: [ParkingType]!
   parking(identifier: String!): ParkingType
+  predictParking(datetime: DateTime!): String!
 }
 
 type UserType {
@@ -32,6 +33,8 @@ type ParkingType {
   totalLots: Int!
   occupiedLots: Int!
   entries: [ParkingEntry]!
+  latitude: String
+  longitude: String
 }
 
 scalar ParkingID
@@ -47,13 +50,9 @@ enum ParkingStatusEnum {
 }
 
 type Mutation {
-  createParking(address: String!, name: String!, totalLots: Int!): CreateParkingMutation!
   createUser(email: String!, name: String!, password: String!): CreateUserMutation!
   loginUser(email: String!, password: String!): LoginUserMutation!
-}
-
-type CreateParkingMutation {
-  parking: ParkingType!
+  createParking(address: String!, name: String!, totalLots: Int!): CreateParkingMutation!
 }
 
 type CreateUserMutation {
@@ -62,4 +61,8 @@ type CreateUserMutation {
 
 type LoginUserMutation {
   token: String!
+}
+
+type CreateParkingMutation {
+  parking: ParkingType!
 }

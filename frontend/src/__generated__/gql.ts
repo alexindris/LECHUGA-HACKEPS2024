@@ -20,6 +20,7 @@ const documents = {
     "\n  query Parking {\n    allParkings {\n        identifier\n        name\n        address\n        totalLots\n        occupiedLots\n        entries {\n            entryType\n            createdAt\n        }\n    }\n}\n": types.ParkingDocument,
     "\n  query GetParking($identifier: String!) {\n    parking(identifier: $identifier) {\n        identifier\n        name\n        address\n        totalLots\n        occupiedLots\n        entries {\n          entryType\n          createdAt\n        }\n    }\n}\n": types.GetParkingDocument,
     "\n  mutation CreateParkingg($name: String!, $address: String!, $totalLots: Int!){\n    createParking( address: $address, name: $name, totalLots: $totalLots) {\n      parking {\n        identifier\n        name\n        address\n        totalLots\n        occupiedLots\n        entries {\n            entryType\n            createdAt\n        }\n      }\n    }\n}\n": types.CreateParkinggDocument,
+    "\n  query PredictParking($datetime: DateTime!) {\n    predictParking(datetime: $datetime)\n  }\n": types.PredictParkingDocument,
 };
 
 /**
@@ -60,6 +61,10 @@ export function gql(source: "\n  query GetParking($identifier: String!) {\n    p
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation CreateParkingg($name: String!, $address: String!, $totalLots: Int!){\n    createParking( address: $address, name: $name, totalLots: $totalLots) {\n      parking {\n        identifier\n        name\n        address\n        totalLots\n        occupiedLots\n        entries {\n            entryType\n            createdAt\n        }\n      }\n    }\n}\n"): (typeof documents)["\n  mutation CreateParkingg($name: String!, $address: String!, $totalLots: Int!){\n    createParking( address: $address, name: $name, totalLots: $totalLots) {\n      parking {\n        identifier\n        name\n        address\n        totalLots\n        occupiedLots\n        entries {\n            entryType\n            createdAt\n        }\n      }\n    }\n}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query PredictParking($datetime: DateTime!) {\n    predictParking(datetime: $datetime)\n  }\n"): (typeof documents)["\n  query PredictParking($datetime: DateTime!) {\n    predictParking(datetime: $datetime)\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

@@ -5,6 +5,7 @@ import SimpleNav from "@/components/SimpleNav";
 import { HistoricEventsChart } from "@/components/HistoricEventsChart";
 import { format, parseISO } from "date-fns";
 import { ParkingEntry } from "@/__generated__/graphql";
+import { PredictionDialog } from "@/components/PredictionDialog";
 
 export const Route = createFileRoute("/parking/$identifier")({
   component: RouteComponent,
@@ -40,6 +41,7 @@ function RouteComponent() {
                   {data?.parking?.occupiedLots}/{data?.parking?.totalLots}
                 </span>
               </div>
+              <PredictionDialog />
             </div>
             <img
               src="/parking_header.png"
