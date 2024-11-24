@@ -8,6 +8,12 @@ from infrastructure.service_locator.geolocation_service import (
     GeocodingService,
     NomatimGeocodingService,
 )
+from infrastructure.service_locator.push_notifications.firebase_notification_service import (
+    FirebaseNotificationService,
+)
+from infrastructure.service_locator.push_notifications.push_notification_service import (
+    PushNotificationService,
+)
 from infrastructure.service_locator.time_service import SystemTimeService, TimeService
 
 
@@ -20,15 +26,19 @@ class ServiceLocatorBase(ABC):
     def geolocationService(self) -> GeocodingService:
         pass
 
+    @abstractmethod
+    def pushNotificationService(self) -> PushNotificationService:
+        pass
+
 
 class ServiceLocator(ServiceLocatorBase):
-    # file_storage_service: FileStorageService
     time_service: TimeService
     geocoding_service: GeocodingService
+    push_notification_service: PushNotificationService
 
     def __init__(self) -> None:
         self.geocoding_service = NomatimGeocodingService()
-
+        self.push_notification_service = FirebaseNotificationService()
         self.time_service = SystemTimeService()
 
     def timeService(self) -> TimeService:
@@ -36,6 +46,9 @@ class ServiceLocator(ServiceLocatorBase):
 
     def geolocationService(self) -> GeocodingService:
         return self.geocoding_service
+
+    def pushNotificationService(self) -> PushNotificationService:
+        return self.push_notification_service
 
 
 service_locator: Optional[ServiceLocatorBase] = None

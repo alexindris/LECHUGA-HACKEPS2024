@@ -32,6 +32,8 @@ type ParkingType {
   totalLots: Int!
   occupiedLots: Int!
   entries: [ParkingEntry]!
+  latitude: String
+  longitude: String
 }
 
 scalar ParkingID
@@ -50,6 +52,8 @@ type Mutation {
   createParking(address: String!, name: String!, totalLots: Int!): CreateParkingMutation!
   createUser(email: String!, name: String!, password: String!): CreateUserMutation!
   loginUser(email: String!, password: String!): LoginUserMutation!
+  registerDevice(pushToken: String!): RegisterDeviceMutation!
+  unregisterDevice(pushToken: String!): UnregisterDeviceMutation!
 }
 
 type CreateParkingMutation {
@@ -62,4 +66,12 @@ type CreateUserMutation {
 
 type LoginUserMutation {
   token: String!
+}
+
+type RegisterDeviceMutation {
+  success: Boolean!
+}
+
+type UnregisterDeviceMutation {
+  success: Boolean!
 }

@@ -1,6 +1,9 @@
 from typing import Generator
 
-from infrastructure.service_locator.mock_services import MockTimeService
+from infrastructure.service_locator.mock_services import (
+    MockPushNotificationService,
+    MockTimeService,
+)
 from infrastructure.service_locator.service_locator import (
     get_service_locator,
     set_service_locator,
@@ -25,3 +28,10 @@ def mock_time_service(
     mock_services: MockServiceLocator,
 ) -> MockTimeService:
     return mock_services.mock_time_service
+
+
+@pytest.fixture
+def mock_push_notification_service(
+    mock_services: MockServiceLocator,
+) -> MockPushNotificationService:
+    return mock_services.mock_push_notification_service
