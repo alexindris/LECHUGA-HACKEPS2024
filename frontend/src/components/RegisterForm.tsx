@@ -42,8 +42,6 @@ export function RegisterForm() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   async function onSubmit(values: z.infer<typeof registerSchema>) {
-    console.log(values)
-
     try {
       await apolloClient.mutate({
         mutation: CREATE_USER,
