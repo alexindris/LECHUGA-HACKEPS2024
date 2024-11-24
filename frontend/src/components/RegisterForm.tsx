@@ -22,8 +22,9 @@ import { useState } from 'react';
 import { ErrorMessage } from './ErrorMessage';
 import { registerSchema } from '@/formSchemas/signupSchema';
 import { Checkbox } from './ui/checkbox';
-import { apolloClient } from '@/lib/utils';
 import { CREATE_USER } from '@/lib/api';
+import { apolloClient } from '@/lib/utils';
+
 
 export function RegisterForm() {
   const form = useForm<z.infer<typeof registerSchema>>({
