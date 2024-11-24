@@ -4,12 +4,11 @@ import {
   FileRoutesByPath,
   redirect,
 } from "@tanstack/react-router";
-import Cookies from 'js-cookie';
 import React from "react";
 
 
 function isLoggedIn() {
-  const auth = Cookies.get('auth')
+  const auth = localStorage.getItem('auth')
   return !!auth
 }
 

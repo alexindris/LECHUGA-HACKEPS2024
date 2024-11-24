@@ -1,13 +1,28 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { setContext } from '@apollo/client/link/context';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// Initialize Apollo Client
+const httpLink = createHttpLink({
+  uri: 'http://localhost:8000/graphql/',
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('auth');
+  console.log(token)
+  return {
+    headers: {
+      ...headers,
+      Authorization: token ? `Token ${token}` : "",
+    }
+  }
+});
+
 export const apolloClient = new ApolloClient({
-  uri: "http://localhost:8000/graphql/",
-  cache: new InMemoryCache(),
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
 });

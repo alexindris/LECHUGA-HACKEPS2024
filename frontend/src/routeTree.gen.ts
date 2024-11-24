@@ -11,13 +11,22 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as TestImport } from './routes/test'
 import { Route as MeImport } from './routes/me'
-import { Route as AboutImport } from './routes/about'
+import { Route as HomeImport } from './routes/home'
 import { Route as IndexImport } from './routes/index'
+import { Route as ParkingNewImport } from './routes/parking/new'
+import { Route as ParkingIdentifierImport } from './routes/parking/$identifier'
 import { Route as AuthSignupImport } from './routes/auth/signup'
 import { Route as AuthSigninImport } from './routes/auth/signin'
 
 // Create/Update Routes
+
+const TestRoute = TestImport.update({
+  id: '/test',
+  path: '/test',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const MeRoute = MeImport.update({
   id: '/me',
@@ -25,15 +34,27 @@ const MeRoute = MeImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AboutRoute = AboutImport.update({
-  id: '/about',
-  path: '/about',
+const HomeRoute = HomeImport.update({
+  id: '/home',
+  path: '/home',
   getParentRoute: () => rootRoute,
 } as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ParkingNewRoute = ParkingNewImport.update({
+  id: '/parking/new',
+  path: '/parking/new',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ParkingIdentifierRoute = ParkingIdentifierImport.update({
+  id: '/parking/$identifier',
+  path: '/parking/$identifier',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,11 +81,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeImport
       parentRoute: typeof rootRoute
     }
     '/me': {
@@ -72,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/me'
       fullPath: '/me'
       preLoaderRoute: typeof MeImport
+      parentRoute: typeof rootRoute
+    }
+    '/test': {
+      id: '/test'
+      path: '/test'
+      fullPath: '/test'
+      preLoaderRoute: typeof TestImport
       parentRoute: typeof rootRoute
     }
     '/auth/signin': {
@@ -88,6 +116,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignupImport
       parentRoute: typeof rootRoute
     }
+    '/parking/$identifier': {
+      id: '/parking/$identifier'
+      path: '/parking/$identifier'
+      fullPath: '/parking/$identifier'
+      preLoaderRoute: typeof ParkingIdentifierImport
+      parentRoute: typeof rootRoute
+    }
+    '/parking/new': {
+      id: '/parking/new'
+      path: '/parking/new'
+      fullPath: '/parking/new'
+      preLoaderRoute: typeof ParkingNewImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -95,52 +137,92 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/home': typeof HomeRoute
   '/me': typeof MeRoute
+  '/test': typeof TestRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/parking/$identifier': typeof ParkingIdentifierRoute
+  '/parking/new': typeof ParkingNewRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/home': typeof HomeRoute
   '/me': typeof MeRoute
+  '/test': typeof TestRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/parking/$identifier': typeof ParkingIdentifierRoute
+  '/parking/new': typeof ParkingNewRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/home': typeof HomeRoute
   '/me': typeof MeRoute
+  '/test': typeof TestRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/parking/$identifier': typeof ParkingIdentifierRoute
+  '/parking/new': typeof ParkingNewRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/me' | '/auth/signin' | '/auth/signup'
+  fullPaths:
+    | '/'
+    | '/home'
+    | '/me'
+    | '/test'
+    | '/auth/signin'
+    | '/auth/signup'
+    | '/parking/$identifier'
+    | '/parking/new'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/me' | '/auth/signin' | '/auth/signup'
-  id: '__root__' | '/' | '/about' | '/me' | '/auth/signin' | '/auth/signup'
+  to:
+    | '/'
+    | '/home'
+    | '/me'
+    | '/test'
+    | '/auth/signin'
+    | '/auth/signup'
+    | '/parking/$identifier'
+    | '/parking/new'
+  id:
+    | '__root__'
+    | '/'
+    | '/home'
+    | '/me'
+    | '/test'
+    | '/auth/signin'
+    | '/auth/signup'
+    | '/parking/$identifier'
+    | '/parking/new'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
+  HomeRoute: typeof HomeRoute
   MeRoute: typeof MeRoute
+  TestRoute: typeof TestRoute
   AuthSigninRoute: typeof AuthSigninRoute
   AuthSignupRoute: typeof AuthSignupRoute
+  ParkingIdentifierRoute: typeof ParkingIdentifierRoute
+  ParkingNewRoute: typeof ParkingNewRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
+  HomeRoute: HomeRoute,
   MeRoute: MeRoute,
+  TestRoute: TestRoute,
   AuthSigninRoute: AuthSigninRoute,
   AuthSignupRoute: AuthSignupRoute,
+  ParkingIdentifierRoute: ParkingIdentifierRoute,
+  ParkingNewRoute: ParkingNewRoute,
 }
 
 export const routeTree = rootRoute
@@ -154,26 +236,38 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about",
+        "/home",
         "/me",
+        "/test",
         "/auth/signin",
-        "/auth/signup"
+        "/auth/signup",
+        "/parking/$identifier",
+        "/parking/new"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/about": {
-      "filePath": "about.tsx"
+    "/home": {
+      "filePath": "home.tsx"
     },
     "/me": {
       "filePath": "me.tsx"
+    },
+    "/test": {
+      "filePath": "test.tsx"
     },
     "/auth/signin": {
       "filePath": "auth/signin.tsx"
     },
     "/auth/signup": {
       "filePath": "auth/signup.tsx"
+    },
+    "/parking/$identifier": {
+      "filePath": "parking/$identifier.tsx"
+    },
+    "/parking/new": {
+      "filePath": "parking/new.tsx"
     }
   }
 }

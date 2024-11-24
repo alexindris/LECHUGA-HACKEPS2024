@@ -1,4 +1,3 @@
-import { createProtectRoute } from "@/lib/protectRoute";
 import { ErrorMessage } from '@/components/ErrorMessage';
 import SimpleNav from '@/components/SimpleNav'
 import { Button } from '@/components/ui/button';
@@ -6,19 +5,16 @@ import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { createParkingSchema } from '@/formSchemas/createParkingSchema';
+import { createProtectRoute } from '@/lib/protectRoute';
 import { useParkingStore } from '@/stores/storeProvider';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from '@tanstack/react-router'
+import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-export const Route = createProtectRoute({
-  path: "/me",
-  component: RouteComponent,
-});
-
-function RouteComponent() {
+const RouteComponent = observer(() => {
   const form = useForm<z.infer<typeof createParkingSchema>>({
     resolver: zodResolver(createParkingSchema),
     defaultValues: {
@@ -29,9 +25,7 @@ function RouteComponent() {
   });
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
   const parkingStore = useParkingStore();
-
   const navigator = useNavigate();
 
   async function onSubmit(values: z.infer<typeof createParkingSchema>) {
@@ -40,11 +34,10 @@ function RouteComponent() {
     setErrorMessage("Check the address")
   }
 
-
   return (
     <>
       <SimpleNav disabledParkingTab={false} activeTab='parking' />
-      <div className='flex flex-col h-screen w-full bg-sky-700 items-center justify-center'>
+      <div className='flex h-screen w-full bg-sky-700 items-center justify-center'>
         <Card className='mx-auto border-none shadow-none bg-sky-100 rounded-[4.25rem] px-32 ' >
           <CardTitle>
             <img src="/parking.png" alt="Parking" className='p-2' />
@@ -107,4 +100,10 @@ function RouteComponent() {
 
     </>
   )
-}
+});
+
+
+export const Route = createProtectRoute({
+  path: '/parking/new',
+  component: RouteComponent
+})

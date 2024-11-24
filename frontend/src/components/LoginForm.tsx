@@ -22,7 +22,6 @@ import {
 import { useUserStore } from '@/stores/storeProvider';
 import { useState } from 'react';
 import { ErrorMessage } from './ErrorMessage';
-import Cookies from 'js-cookie';
 
 export function LoginForm() {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -40,8 +39,8 @@ export function LoginForm() {
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     const a = await userStore.login(values.email, values.password);
     if (a.token) {
-      Cookies.set('auth', a.token);
-      navigate({ to: '/me' })
+      localStorage.setItem('auth', a.token);
+      navigate({ to: '/home' })
     }
     else if (a?.errorMessage) setErrorMessage(a.errorMessage);
     else setErrorMessage('Unknown error')

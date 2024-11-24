@@ -6,8 +6,8 @@ from main_app.parkings.models import Parking
 
 
 class ParkingStatusEnum(graphene.Enum):
-    ENTRANCE = "ENTRANCE"
-    EXIT = "EXIT"
+    ENTRANCE = "EN"
+    EXIT = "EX"
 
 
 class ParkingID(graphene.Scalar):
