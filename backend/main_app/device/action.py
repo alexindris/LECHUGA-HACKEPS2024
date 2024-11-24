@@ -12,10 +12,9 @@ from main_app.device.models import Device
 
 def send_notification(
     viewer_context: ViewerContext,
-    user: User,
     notification: PushNotification,
 ) -> None:
-    all_devices = user.devices.all()
+    all_devices = Device.objects.all()
     for device in all_devices:
         try:
             get_service_locator().pushNotificationService().send_notification(
@@ -23,12 +22,11 @@ def send_notification(
                 notification,
             )
         except TokenExpiredError:
-            _unregister_device(viewer_context, user, device.push_token)
+            _unregister_device(viewer_context, device.push_token)
 
 
 def _unregister_device(
     viewer_context: ViewerContext,
-    user: User,
     push_token: str,
 ) -> None:
     devices = Device.objects.filter(push_token=push_token).all()
@@ -37,10 +35,8 @@ def _unregister_device(
         device.delete()
 
 
-@is_same_user()
 def register_device(
     viewer_context: ViewerContext,
-    user: User,
     push_token: str,
 ) -> None:
     devices = Device.objects.filter(push_token=push_token).all()
@@ -48,4 +44,4 @@ def register_device(
     for device in devices:
         device.delete()
 
-    Device.objects.create(user=user, push_token=push_token)
+    Device.objects.create(push_token=push_token)
