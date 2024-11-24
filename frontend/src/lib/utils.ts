@@ -8,7 +8,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:8000/graphql/',
+  // uri: 'http://localhost:8000/graphql/',
+  uri: "https://engiei3g8t.eu-west-3.awsapprunner.com/graphql/ "
 });
 
 const authLink = setContext((_, { headers }) => {
