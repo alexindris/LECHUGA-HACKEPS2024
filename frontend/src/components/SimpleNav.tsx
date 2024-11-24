@@ -9,9 +9,10 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 type TabsProps = {
   disabledParkingTab: boolean;
+  activeTab?: string;
 }
 
-export default function NavBar({ disabledParkingTab }: Readonly<TabsProps>) {
+export default function SimpleNav({ disabledParkingTab, activeTab = 'home' }: Readonly<TabsProps>) {
 
   // const navItems = [
   //   { name: "Home", href: "#" },
@@ -25,7 +26,7 @@ export default function NavBar({ disabledParkingTab }: Readonly<TabsProps>) {
     <header className="flex flex-col bg-sky-200 w-full h-16 p-1 ">
       <div className='flex items-center justify-between w-full  px-3'>
         <img src="/home_logo.png" alt="Home Logo" className="h-10  pt-1 " />
-        <Tabs defaultValue="home" className="w-[300px] flex border rounded-xl border-white">
+        <Tabs defaultValue={activeTab} className="w-[300px] flex border rounded-xl border-white">
           <TabsList className="grid w-full grid-cols-2 h-full p-0  ">
             <TabsTrigger
               onClick={() => { router.location.pathname !== '/home' && navigate({ to: '/home' }) }}

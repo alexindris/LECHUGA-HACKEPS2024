@@ -1,45 +1,28 @@
-import { ApolloClient, InMemoryCache, NormalizedCache, NormalizedCacheObject } from '@apollo/client';
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { setContext } from '@apollo/client/link/context';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-
-// const authLink = setContext((_, { headers }) => {
-//   // get the authentication token from local storage if it exists
-//   const token = localStorage.getItem('token');
-//   // return the headers to the context so httpLink can read them
-//   return {
-//     headers: {
-//       ...headers,
-//       authorization: token ? `Bearer ${token}` : "",
-//     }
-//   }
-// });
-
-
-// Initialize Apollo Client
-export const apolloClient = new ApolloClient({
-  uri: "http://localhost:8000/graphql/",
-  cache: new InMemoryCache(),
+const httpLink = createHttpLink({
+  uri: 'http://localhost:8000/graphql/',
 });
 
-// export class CustomApolloClient {
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('auth');
+  console.log(token)
+  return {
+    headers: {
+      ...headers,
+      Authorization: token ? `Token ${token}` : "",
+    }
+  }
+});
 
-//   client: ApolloClient<NormalizedCacheObject>;
-
-//   constructor() {
-//     this.client = new ApolloClient({
-//       uri: "http://localhost:8000/graphql/",
-//       cache: new InMemoryCache(),
-//     });
-//   }
-
-//   public addAuthToken(token: string) {
-//     this.client.setHeaders({
-//       authorization: token
-//     });
-//   }
-// }
+export const apolloClient = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
+});

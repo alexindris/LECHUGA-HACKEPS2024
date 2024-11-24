@@ -43,3 +43,22 @@ export const GET_ALL_PARKINGS = gql(`
     }
 }
 `);
+
+
+export const CREATE_PARKING = gql(`
+  mutation CreateParkingg($name: String!, $address: String!, $totalLots: Int!){
+    createParking( address: $address, name: $name, totalLots: $totalLots) {
+      parking {
+        identifier
+        name
+        address
+        totalLots
+        occupiedLots
+        entries {
+            entryType
+            createdAt
+        }
+      }
+    }
+}
+`);
