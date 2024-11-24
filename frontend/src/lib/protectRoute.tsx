@@ -41,7 +41,7 @@ export function createNonLoggedRoute({ path, component }: ProtectedRouteOptions)
     beforeLoad: async ({ location }) => {
       if (isLoggedIn()) {
         throw redirect({
-          to: "/me",
+          to: "/home",
           search: {
             redirect: location.href,
           },

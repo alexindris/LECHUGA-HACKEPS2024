@@ -27,7 +27,7 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col h-screen w-full bg-sky-100">
-      <SimpleNav disabledParkingTab={true} />
+      <SimpleNav disabledParkingTab={true} activeTab='parking' />
       <div className="h-full w-full flex flex-col items-center">
         <div className="bg-white w-full h-[30rem] flex py-5">
           <div className="m-auto">

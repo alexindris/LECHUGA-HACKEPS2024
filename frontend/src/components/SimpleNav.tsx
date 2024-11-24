@@ -37,7 +37,7 @@ export default function SimpleNav({ disabledParkingTab, activeTab = 'home' }: Re
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <Avatar className='rounded-full cursor-pointer' onClick={() => navigate({ to: '/me' })}>
+        <Avatar className='rounded-full'>
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>XD</AvatarFallback>
         </Avatar>
