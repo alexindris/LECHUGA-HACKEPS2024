@@ -1,30 +1,24 @@
 import { GridParkingItem } from '@/components/GridParkingItem';
 import SimpleNav from '@/components/SimpleNav';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { GET_ALL_PARKINGS } from '@/lib/api';
-import { createProtectRoute } from '@/lib/protectRoute';
-import { useQuery } from '@apollo/client';
-import { createFileRoute } from '@tanstack/react-router';
-import { Grid } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useParkingStore } from '@/stores/storeProvider';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { LuPlus } from "react-icons/lu";
+import { observer } from "mobx-react-lite";
 
 // export const Route = createProtectRoute({
 //   path: "/home",
 //   component: RouteComponent,
 // });
-export const Route = createFileRoute("/home")({
-  component: RouteComponent,
-});
 
-function RouteComponent() {
 
-  const { data } = useQuery(GET_ALL_PARKINGS);
+const RouteComponent = observer(() => {
+  const parkingStore = useParkingStore();
+  const navigator = useNavigate();
 
-  useEffect(() => {
-    console.log(data)
-  }, [data])
+  if (parkingStore.parkings.length === 0) {
+    parkingStore.getAllParkings()
+  }
 
   return (
     <div className='flex flex-col h-screen w-full bg-sky-100'>
@@ -36,7 +30,10 @@ function RouteComponent() {
             <br />
             parking
             <br />
-            <Button className='text-lg font-bold text-black border-2 text-center  border-sky-200 bg-sky-100 ' >
+            <Button
+              className='text-lg font-bold text-black border-2 text-center  border-sky-200 bg-sky-100 '
+              onClick={() => navigator({ to: '/parking/new' })}
+            >
               <LuPlus size={70} />
             </Button>
           </span>
@@ -44,8 +41,8 @@ function RouteComponent() {
         </div>
         <div className='flex h-screen w-full p-10 flex-col bg-sky-100'>
           <span className='text-sky-800 text-5xl w-full text-center font-semibold mb-4'>My Parkings</span>
-          <div className='grid  justify-between w-full h-full gap-10 grid-cols-4 '>
-            {data?.allParkings.map((parking) => {
+          <div className='grid justify-between w-full h-full gap-10 md:grid-cols-4 sm:grid-cols-1'>
+            {parkingStore.parkings.map((parking) => {
               if (!parking) return;
               return <GridParkingItem key={parking.identifier} title={parking.name} occupation={parking.occupiedLots + '/' + parking.totalLots} />
             })}
@@ -60,4 +57,8 @@ function RouteComponent() {
       </div >
     </div >
   )
-}
+});
+
+export const Route = createFileRoute("/home")({
+  component: RouteComponent,
+});
