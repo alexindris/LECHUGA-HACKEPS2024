@@ -14,17 +14,12 @@ type TabsProps = {
 
 export default function SimpleNav({ disabledParkingTab, activeTab = 'home' }: Readonly<TabsProps>) {
 
-  // const navItems = [
-  //   { name: "Home", href: "#" },
-  //   { name: "Parking", href: "#" },
-  // ]
-
   const navigate = useNavigate();
   const router = useRouterState();
 
   return (
-    <header className="flex flex-col bg-sky-200 w-full h-16 p-1 ">
-      <div className='flex items-center justify-between w-full  px-3'>
+    <header className="flex bg-sky-200 w-full h-16 items-center justify-between p-1">
+      <div className='flex items-center justify-between w-full px-3'>
         <img src="/home_logo.png" alt="Home Logo" className="h-10  pt-1 " />
         <Tabs defaultValue={activeTab} className="w-[300px] flex border rounded-xl border-white">
           <TabsList className="grid w-full grid-cols-2 h-full p-0  ">
@@ -42,7 +37,7 @@ export default function SimpleNav({ disabledParkingTab, activeTab = 'home' }: Re
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <Avatar className=' rounded-full'>
+        <Avatar className='rounded-full cursor-pointer' onClick={() => navigate({ to: '/me' })}>
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>XD</AvatarFallback>
         </Avatar>
