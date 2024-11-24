@@ -22,3 +22,9 @@ tasks:
     cmds:
       - cd frontend && pnpm install
       - cd backend && pip install -r requirements.txt
+
+  backend-test:
+    desc: Run backend tests
+    cmds:
+      - cd backend && pytest . -n auto
+      - cd backend && mypy .
