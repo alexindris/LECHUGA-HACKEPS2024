@@ -5,10 +5,10 @@ import { Card, CardContent, CardTitle } from '@/components/ui/card'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { createParkingSchema } from '@/formSchemas/createParkingSchema';
-import { useParkingStore, useUserStore } from '@/stores/storeProvider';
+import { useParkingStore } from '@/stores/storeProvider';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
