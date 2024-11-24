@@ -42,8 +42,6 @@ export function RegisterForm() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   async function onSubmit(values: z.infer<typeof registerSchema>) {
-    console.log(values)
-
     try {
       await apolloClient.mutate({
         mutation: CREATE_USER,
@@ -59,7 +57,7 @@ export function RegisterForm() {
   return (
     <Card className='mx-auto max-w-sm border-none shadow-none'>
       <CardHeader>
-        <img src='/public/app_logo.png' alt='logo' />
+        <img src='/app_logo.png' alt='logo' />
       </CardHeader>
       <CardContent>
         <ErrorMessage errorMessage={errorMessage} />
