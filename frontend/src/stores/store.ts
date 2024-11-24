@@ -5,7 +5,6 @@ import { action, flow, makeAutoObservable, observable } from "mobx";
 
 export class UserStore {
   @observable userToken: string | null = null;
-  client = apolloClient
 
   constructor() {
     makeAutoObservable(this);
@@ -21,7 +20,7 @@ export class UserStore {
 
   @flow async login(email: string, password: string) {
     try {
-      const { data } = await this.client.mutate({
+      const { data } = await apolloClient.mutate({
         mutation: LOGIN_USER,
         variables: { email, password },
       });
@@ -36,19 +35,20 @@ export class UserStore {
 export class ParkingStore {
   @observable parkings: ParkingType[] = [];
 
-
   constructor() {
     makeAutoObservable(this);
   }
 
   @action async createParking(name: string, address: string, totalLots: number) {
     try {
-      await apolloClient.mutate({
+      const a = await apolloClient.mutate({
         mutation: CREATE_PARKING,
         variables: { name: name, address: address, totalLots: totalLots },
       });
 
-      await this.getAllParkings();
+      if (a.data?.createParking)
+        this.parkings.push(a.data?.createParking.parking)
+
     } catch (e) {
       return { error: "Check the address" }
     }
@@ -60,6 +60,8 @@ export class ParkingStore {
       const { data } = await apolloClient.query({
         query: GET_ALL_PARKINGS,
       });
+      console.log(data)
+
       this.parkings = data?.allParkings.filter((parking) => parking !== null) ?? [];
 
     } catch (e: any) {

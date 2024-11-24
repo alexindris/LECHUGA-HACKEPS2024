@@ -1,20 +1,24 @@
 import * as React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { useUserStore } from '@/stores/storeProvider';
 import { observer } from 'mobx-react-lite';
-
-export const Route = createFileRoute('/test')({
-  component: observer(RouteComponent),
-})
+import { Input } from '@/components/ui/input';
+import { useUserStore } from '@/stores/storeProvider';
 
 
-function RouteComponent() {
+
+const RouteComponent = observer(() => {
   const userStore = useUserStore();
 
   return (
     <>
-      <h1>Test</h1>
-      <p>{userStore.userToken}</p>
+      User token: {userStore.userToken}
+      <Input value={userStore.userToken ?? ''} onChange={(e) => userStore.setToken(e.target.value)} />
     </>
   )
 }
+
+);
+
+export const Route = createFileRoute('/test')({
+  component: RouteComponent,
+})

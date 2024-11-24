@@ -2,23 +2,21 @@ import { GridParkingItem } from '@/components/GridParkingItem';
 import SimpleNav from '@/components/SimpleNav';
 import { Button } from '@/components/ui/button';
 import { useParkingStore } from '@/stores/storeProvider';
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 import { LuPlus } from "react-icons/lu";
 import { observer } from "mobx-react-lite";
-
-// export const Route = createProtectRoute({
-//   path: "/home",
-//   component: RouteComponent,
-// });
-
+import { createProtectRoute } from '@/lib/protectRoute';
 
 const RouteComponent = observer(() => {
   const parkingStore = useParkingStore();
   const navigator = useNavigate();
 
+  // Add refresh button
   if (parkingStore.parkings.length === 0) {
     parkingStore.getAllParkings()
   }
+
+  // console.log(parkingStore.parkings)
 
   return (
     <div className='flex flex-col h-screen w-full bg-sky-100'>
@@ -39,19 +37,13 @@ const RouteComponent = observer(() => {
           </span>
           <img src="/parking.png" alt="Home Background" />
         </div>
-        <div className='flex h-screen w-full p-10 flex-col bg-sky-100'>
+        <div className='flex h-h-screen w-full p-10 flex-col bg-sky-100'>
           <span className='text-sky-800 text-5xl w-full text-center font-semibold mb-4'>My Parkings</span>
           <div className='grid justify-between w-full h-full gap-10 md:grid-cols-4 sm:grid-cols-1'>
             {parkingStore.parkings.map((parking) => {
               if (!parking) return;
               return <GridParkingItem key={parking.identifier} title={parking.name} occupation={parking.occupiedLots + '/' + parking.totalLots} />
             })}
-            {/* 
-            <GridParkingItem title='Parking 2' occupation='42/50' />
-            <GridParkingItem title='Parking 3' occupation='32/80' />
-            <GridParkingItem title='Parking 4' occupation='80/100' />
-            <GridParkingItem title='Parking 5' occupation='100/100' /> */}
-
           </div>
         </div>
       </div >
@@ -59,6 +51,7 @@ const RouteComponent = observer(() => {
   )
 });
 
-export const Route = createFileRoute("/home")({
+export const Route = createProtectRoute({
+  path: "/home",
   component: RouteComponent,
 });

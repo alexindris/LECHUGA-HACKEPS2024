@@ -8,7 +8,7 @@ export const Route = createNonLoggedRoute({
 
 function RouteComponent() {
   return (
-    <div className='flex h-screen w-full items-center justify-center px-4 bg-sky-100'>
+    <div className='flescreen w-full items-center justify-center px-4 bg-sky-100'>
       <RegisterForm />
     </div>
   );
