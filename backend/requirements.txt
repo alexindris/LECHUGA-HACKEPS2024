@@ -10,6 +10,7 @@ certifi==2023.11.17
 cffi==1.16.0
 charset-normalizer==3.3.2
 click==8.1.7
+coverage==7.6.7
 cryptography==42.0.5
 Django==4.2.9
 django-cors-headers==4.6.0
@@ -21,6 +22,9 @@ djangorestframework-stubs==3.14.5
 exceptiongroup==1.2.0
 execnet==2.0.2
 firebase-admin==6.5.0
+geographiclib==2.0
+geopy==2.4.1
+googleapis-common-protos==1.66.0
 graphene==3.3
 graphene-django==3.2.0
 graphene-file-upload==1.3.0
@@ -44,6 +48,7 @@ msgpack==1.0.8
 mypy==1.8.0
 mypy-extensions==1.0.0
 packaging==23.2
+paho-mqtt==2.1.0
 pathspec==0.12.1
 pillow==10.2.0
 platformdirs==4.1.0
@@ -58,11 +63,11 @@ pycparser==2.22
 PyJWT==2.8.0
 pyparsing==3.1.2
 pytest==7.4.4
+pytest-cov==6.0.0
 pytest-django==4.7.0
 pytest-dotenv==0.5.2
-pytest-xdist==3.5.0
 pytest-mock==3.7.0
-pytest-cov==6.0.0
+pytest-xdist==3.5.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 python-http-client==3.3.7
@@ -90,7 +95,5 @@ uritemplate==4.1.1
 urllib3==1.26.18
 watchtower==3.2.0
 Werkzeug==3.0.2
+whitenoise==6.4.0
 xmltodict==0.13.0
-django-cors-headers==4.6.0
-paho-mqtt==2.1.0
-geopy==2.4.1
