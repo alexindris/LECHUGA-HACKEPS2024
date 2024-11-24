@@ -2,8 +2,7 @@ import torch
 import torch.nn as nn
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import MinMaxScaler
-import joblib
+import joblib  # type: ignore
 
 class RegressionModel(nn.Module):
     def __init__(self, input_size, hidden_size=64):

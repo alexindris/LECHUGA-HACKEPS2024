@@ -4,6 +4,7 @@ from infrastructure.service_locator.geolocation_service import (
     Coordinates,
     GeocodingService,
 )
+from infrastructure.service_locator.predition_service import PredictionService
 from infrastructure.service_locator.push_notifications.push_notification_service import (
     PushNotification,
     PushNotificationService,
@@ -34,6 +35,14 @@ class MockGeoCodingService(GeocodingService):
         return Coordinates("0", "0")
 
 
+class MockPredictionService(PredictionService):
+    prediction = 0
+
+    def predict_parking(self, date: datetime.datetime) -> int:
+        return self.prediction
+
+    def set_prediction(self, prediction: int) -> None:
+        self.prediction = prediction
 class MockPushNotificationService(PushNotificationService):
     sent_notifications: dict[str, List[PushNotification]]
     sent_data_messages: dict[str, List[PushNotification]]

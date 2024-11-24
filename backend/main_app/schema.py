@@ -8,7 +8,12 @@ import os
 from hackathon.settings import APP_NAME, BASE_DIR
 from main_app.accounts.schema import UserType, get_me
 from main_app.health.schema import HealthType
-from main_app.parkings.schema import ParkingType, get_parking, get_parkings
+from main_app.parkings.schema import (
+    ParkingType,
+    get_parking,
+    get_parkings,
+    get_prediction,
+)
 
 
 class Query(ObjectType):
@@ -16,6 +21,9 @@ class Query(ObjectType):
     health = graphene.Field(HealthType, required=True)
     all_parkings = graphene.List(ParkingType, required=True)
     parking = graphene.Field(ParkingType, identifier=graphene.String(required=True))
+    predict_parking = graphene.String(
+        required=True, datetime=graphene.DateTime(required=True)
+    )
 
     def resolve_me(self, info):
         return get_me(info)
@@ -28,6 +36,9 @@ class Query(ObjectType):
 
     def resolve_parking(self, info, identifier):
         return get_parking(info, identifier)
+
+    def resolve_predict_parking(self, info, datetime):
+        return get_prediction(info, datetime)
 
 
 def _find_and_import_schema_modules():

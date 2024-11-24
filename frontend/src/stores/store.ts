@@ -60,6 +60,7 @@ export class ParkingStore {
       const { data } = await apolloClient.query({
         query: GET_ALL_PARKINGS,
       });
+
       this.parkings = data?.allParkings.filter((parking) => parking !== null) ?? [];
 
     } catch (e: any) {

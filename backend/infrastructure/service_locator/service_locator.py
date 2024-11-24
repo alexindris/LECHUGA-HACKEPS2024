@@ -8,6 +8,10 @@ from infrastructure.service_locator.geolocation_service import (
     GeocodingService,
     NomatimGeocodingService,
 )
+from infrastructure.service_locator.predition_service import (
+    ParkingPredictionService,
+    PredictionService,
+)
 from infrastructure.service_locator.push_notifications.firebase_notification_service import (
     FirebaseNotificationService,
 )
@@ -27,6 +31,10 @@ class ServiceLocatorBase(ABC):
         pass
 
     @abstractmethod
+    def predictionService(self) -> PredictionService:
+        pass
+    
+    @abstractmethod
     def pushNotificationService(self) -> PushNotificationService:
         pass
 
@@ -34,12 +42,17 @@ class ServiceLocatorBase(ABC):
 class ServiceLocator(ServiceLocatorBase):
     time_service: TimeService
     geocoding_service: GeocodingService
+    prediction_service: PredictionService
+
+    def __init__(self) -> None:
+        self.geocoding_service = NomatimGeocodingService()
     push_notification_service: PushNotificationService
 
     def __init__(self) -> None:
         self.geocoding_service = NomatimGeocodingService()
         self.push_notification_service = FirebaseNotificationService()
         self.time_service = SystemTimeService()
+        self.prediction_service = ParkingPredictionService()
 
     def timeService(self) -> TimeService:
         return self.time_service
@@ -47,6 +60,8 @@ class ServiceLocator(ServiceLocatorBase):
     def geolocationService(self) -> GeocodingService:
         return self.geocoding_service
 
+    def predictionService(self) -> PredictionService:
+        return self.prediction_service
     def pushNotificationService(self) -> PushNotificationService:
         return self.push_notification_service
 

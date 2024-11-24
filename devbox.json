@@ -1,13 +1,22 @@
 {
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.13.6/.schema/devbox.schema.json",
-  "packages": ["nodejs@22.10.0", "go-task@3.39.2", "python@3.9", "pnpm@9.12.3"],
+  "packages": [
+    "nodejs@22.10.0",
+    "go-task@3.39.2",
+    "python@3.10",
+    "pnpm@9.12.3"
+  ],
   "env": {
     "VENV_DIR": "backend/.venv"
   },
   "shell": {
-    "init_hook": [". $VENV_DIR/bin/activate"],
+    "init_hook": [
+      ". $VENV_DIR/bin/activate"
+    ],
     "scripts": {
-      "test": ["echo \"Error: no test specified\" && exit 1"]
+      "test": [
+        "echo \"Error: no test specified\" && exit 1"
+      ]
     }
   }
 }

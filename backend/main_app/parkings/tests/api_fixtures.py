@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import datetime
 from typing import Callable, List
 
 from django.test import Client
@@ -132,3 +133,29 @@ def lleida_parking(
     ironman: LoginResponse,
 ) -> ParkingType:
     return create_parking(ironman.client, "Lleida Parking", "Lleida", 10)
+
+
+PredictParkingRequestType = Callable[[Client, datetime.datetime], int]
+
+
+@pytest.fixture
+def predict_parking(
+    execute_graphql_query: ExecuteGraphQLType,
+) -> PredictParkingRequestType:
+    def _predict_parking(client: Client, datetime: datetime.datetime) -> int:
+        query = """
+            query PredictParking($datetime: DateTime!) {
+                predictParking(datetime: $datetime)
+            }
+            """
+
+        response = execute_graphql_query(
+            client,
+            query,
+            {
+                "datetime": datetime,
+            },
+        )
+        return int(response["data"]["predictParking"])
+
+    return _predict_parking

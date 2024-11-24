@@ -77,3 +77,9 @@ export const CREATE_PARKING = gql(`
     }
 }
 `);
+
+export const PREDICT_PARKING = gql(`
+  query PredictParking($datetime: DateTime!) {
+    predictParking(datetime: $datetime)
+  }
+`);
