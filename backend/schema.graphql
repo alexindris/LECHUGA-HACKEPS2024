@@ -50,9 +50,23 @@ enum ParkingStatusEnum {
 }
 
 type Mutation {
-  createUser(email: String!, name: String!, password: String!): CreateUserMutation!
+  createUser(
+    email: String!
+    name: String!
+    password: String!
+  ): CreateUserMutation!
   loginUser(email: String!, password: String!): LoginUserMutation!
-  createParking(address: String!, name: String!, totalLots: Int!): CreateParkingMutation!
+  createParking(
+    address: String!
+    name: String!
+    totalLots: Int!
+  ): CreateParkingMutation!
+  registerDevice(pushToken: String!): RegisterDeviceMutation!
+  unregisterDevice(pushToken: String!): UnregisterDeviceMutation!
+}
+
+type CreateParkingMutation {
+  parking: ParkingType!
 }
 
 type CreateUserMutation {
@@ -65,4 +79,11 @@ type LoginUserMutation {
 
 type CreateParkingMutation {
   parking: ParkingType!
+}
+type RegisterDeviceMutation {
+  success: Boolean!
+}
+
+type UnregisterDeviceMutation {
+  success: Boolean!
 }

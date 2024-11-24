@@ -1,9 +1,16 @@
 import datetime
+from typing import List
 from infrastructure.service_locator.geolocation_service import (
     Coordinates,
     GeocodingService,
 )
 from infrastructure.service_locator.predition_service import PredictionService
+from infrastructure.service_locator.push_notifications.push_notification_service import (
+    PushNotification,
+    PushNotificationService,
+    Token,
+    TokenExpiredError,
+)
 from infrastructure.service_locator.time_service import TimeService
 
 
@@ -36,3 +43,32 @@ class MockPredictionService(PredictionService):
 
     def set_prediction(self, prediction: int) -> None:
         self.prediction = prediction
+class MockPushNotificationService(PushNotificationService):
+    sent_notifications: dict[str, List[PushNotification]]
+    sent_data_messages: dict[str, List[PushNotification]]
+    expired_tokens: List[str]
+
+    def __init__(self) -> None:
+        self.sent_notifications = {}
+        self.expired_tokens = []
+        self.sent_data_messages = {}
+
+    def clear(self) -> None:
+        self.sent_notifications = {}
+        self.expired_tokens = []
+        self.sent_data_messages = {}
+
+    def send_notification(self, token: Token, notification: PushNotification) -> None:
+        for key in notification.data:
+            if not isinstance(notification.data[key], str):
+                raise ValueError(f"Data for key {key} is not a string")
+
+        if token.token not in self.sent_notifications:
+            self.sent_notifications[token.token] = []
+
+        self.sent_notifications[token.token].append(notification)
+        if token.token in self.expired_tokens:
+            raise TokenExpiredError(token)
+
+    def add_expired_token(self, token: str) -> None:
+        self.expired_tokens.append(token)

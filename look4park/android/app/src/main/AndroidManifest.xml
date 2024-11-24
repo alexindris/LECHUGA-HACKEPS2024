@@ -2,7 +2,7 @@
     <application
         android:label="look4park"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_look_4_park">
         <activity
             android:name=".MainActivity"
             android:exported="true"

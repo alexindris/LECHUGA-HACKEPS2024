@@ -5,7 +5,10 @@ from infrastructure.viewer_context.viewer_context import ViewerContext
 from main_app.parkings.getter import get_parking_by_id
 from main_app.parkings.models import EntryType, Parking, ParkingEntry
 from django.db import transaction
-
+from main_app.device.action import send_notification
+from infrastructure.service_locator.push_notifications.push_notification_service import (
+    PushNotification,
+)
 
 @is_authenticated
 def create_parking(
@@ -36,6 +39,7 @@ def create_parking_entry(
 ) -> ParkingEntry:
     parking = get_parking_by_id(viewer_context, parkin_id)
 
+   
     if entry_type == EntryType.ENTRANCE:
         parking.occupied_lots += 1
     else:
@@ -46,6 +50,26 @@ def create_parking_entry(
 
     if parking.occupied_lots > parking.total_lots:
         raise ValueError("Parking is full")
+    
+    if parking.occupied_lots == parking.total_lots:
+        send_notification(
+            viewer_context,
+            PushNotification(
+                type="parking_full",
+                title="Parking full",
+                subtitle=f"Parking {parking.name} is full",
+            ),
+        )
+    elif entry_type == EntryType.EXIT:
+        send_notification(
+            viewer_context,
+            PushNotification(
+                type="new_spot_available",
+                title="New spot available",
+                subtitle=f"Parking {parking.name} has new spot available",             
+            ),
+        )
+
 
     with transaction.atomic():
         parking.save()

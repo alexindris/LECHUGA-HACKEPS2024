@@ -3,6 +3,7 @@ from typing import Generator
 from infrastructure.service_locator.mock_services import (
     MockGeoCodingService,
     MockPredictionService,
+    MockPushNotificationService,
     MockTimeService,
 )
 from infrastructure.service_locator.service_locator import (
@@ -43,3 +44,7 @@ def mock_prediction_service(
     mock_services: MockServiceLocator,
 ) -> MockPredictionService:
     return mock_services.mock_prediction_service
+def mock_push_notification_service(
+    mock_services: MockServiceLocator,
+) -> MockPushNotificationService:
+    return mock_services.mock_push_notification_service

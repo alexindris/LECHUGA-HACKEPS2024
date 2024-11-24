@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "831155277089",
+    "project_id": "hackeps2024",
+    "storage_bucket": "hackeps2024.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831155277089:android:c2618561435115f4de4260",
+        "android_client_info": {
+          "package_name": "com.look4park.app.look4park"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApbCKir-aaogegtRJp91us_FRYEz4yEkU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
